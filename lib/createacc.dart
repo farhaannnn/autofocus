@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 
-class Screencreateaccount extends StatelessWidget {
-  const Screencreateaccount({super.key});
+class Screencreateaccount1 extends StatelessWidget {
+  const Screencreateaccount1({super.key});
 
   @override
   Widget build(BuildContext context) {
