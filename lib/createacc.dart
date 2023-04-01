@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Screencreateaccount1 extends StatelessWidget {
   const Screencreateaccount1({super.key});
@@ -18,8 +19,8 @@ class Screencreateaccount1 extends StatelessWidget {
             children: [
               //SizedBox(width: 40,),
               SizedBox(width: double.infinity,height: 100 ,child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [Text("Let's get",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 40)),
-                Text('started',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 40))],),    ),
+                children: [Text("Let's get",style: GoogleFonts.montserrat(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 40)),
+                Text('started',style: GoogleFonts.montserrat(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 40))],),    ),
               
               const SizedBox(height: 130,),
               TextFormField(    decoration: const InputDecoration(prefixIcon: Icon(Icons.mail),prefixIconColor: Colors.black, 
@@ -42,10 +43,10 @@ class Screencreateaccount1 extends StatelessWidget {
               
               SizedBox(width: 200,height: 50,child: ElevatedButton(onPressed:(){},style: ElevatedButton.styleFrom(backgroundColor: Colors.white,
                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
-                 child: const Text('Sign Up',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),))),
+                 child:  Text('Sign Up',style: GoogleFonts.montserrat(fontWeight: FontWeight.bold,fontSize: 20),))),
               
               const SizedBox(height: 30),
-              const Text('or continue with',style: TextStyle(color: Colors.white),),
+              Text('or continue with',style: GoogleFonts.montserrat(color: Colors.white),),
               const SizedBox(height: 20),
               
               SizedBox(width: 300,height: 40,
@@ -57,11 +58,11 @@ class Screencreateaccount1 extends StatelessWidget {
               const SizedBox(height: 20),
               SizedBox(width: double.infinity,height:50,
                 child: Row(mainAxisAlignment: MainAxisAlignment.center,    children: [
-                  const Text('Already have an account?',style: TextStyle(color: Colors.white)),
+                  Text('Already have an account?',style: GoogleFonts.montserrat(color: Colors.white)),
                   TextButton(onPressed: ()
                   {
-                    Navigator.push(context, MaterialPageRoute(builder: (ctx)=>const LoginScreen()));
-                  }, child: const Text('Login',style: TextStyle(color: Colors.white)))
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx)=>const LoginScreen()));
+                  }, child: Text('Login',style: GoogleFonts.montserrat(color: Colors.white)))
                 ],),
               )
             ],
