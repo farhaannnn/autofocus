@@ -1,6 +1,8 @@
+import 'package:auto_focus/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
+import 'package:get/get.dart';
 
 class Screencreateaccount1 extends StatelessWidget {
   const Screencreateaccount1({super.key});
@@ -56,7 +58,10 @@ class Screencreateaccount1 extends StatelessWidget {
               SizedBox(width: double.infinity,height:50,
                 child: Row(mainAxisAlignment: MainAxisAlignment.center,    children: [
                   const Text('Already have an account?',style: TextStyle(color: Colors.white)),
-                  TextButton(onPressed: (){}, child: const Text('Login',style: TextStyle(color: Colors.white)))
+                  TextButton(onPressed: ()
+                  {
+                    Navigator.push(context, MaterialPageRoute(builder: (ctx)=>const LoginScreen()));
+                  }, child: const Text('Login',style: TextStyle(color: Colors.white)))
                 ],),
               )
             ],
