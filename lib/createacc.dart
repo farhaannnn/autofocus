@@ -61,10 +61,13 @@ class Screencreateaccount1 extends StatelessWidget {
                   Text('Already have an account?',style: GoogleFonts.montserrat(color: Colors.white)),
                   TextButton(onPressed: ()
                   {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx)=>const LoginScreen()));
+                    //Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx)=>const LoginScreen()));
                   }, child: Text('Login',style: GoogleFonts.montserrat(color: Colors.white)))
                 ],),
-              )
+              ),
+              TextButton(onPressed: (){
+                    Navigator.pop(context);
+                  }, child: const Text('back'))
             ],
           ),
         ),

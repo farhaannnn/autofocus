@@ -83,7 +83,7 @@ class LoginScreen extends StatelessWidget {
                     children: [
                       TextButton(onPressed: ()
                       {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx1)=>const Screencreateaccount1()));
+                        //Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx1)=>const Screencreateaccount1()));
                       },
                      child:  Text('New user?Register',style: GoogleFonts.montserrat(color: Colors.white),)),
                       
@@ -98,6 +98,7 @@ class LoginScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+                SizedBox(height: 20,),
                       
                 //LOGIN BUTTON
                 ElevatedButton(
@@ -110,6 +111,7 @@ class LoginScreen extends StatelessWidget {
                     style: GoogleFonts.montserrat(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
+                      fontSize: 20
                     ),
                   ),
                 ),
@@ -129,10 +131,13 @@ class LoginScreen extends StatelessWidget {
                     Buttons.Google,
                     text: "Google",
                     onPressed: () {},),
-                  )
+                  ),
+                  TextButton(onPressed: (){
+                    Navigator.pop(context);
+                  }, child: const Text('back'))
                       
                 //GOOGLE LOGIN ICON
-                     ,
+                     
               ]),
             ),
           ),
