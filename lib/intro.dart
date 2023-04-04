@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Intro1 extends StatelessWidget {
   const Intro1({super.key});
@@ -18,19 +19,15 @@ class Intro1 extends StatelessWidget {
           children: [
              SizedBox(child: Text("Auto Focus",style:GoogleFonts.montserrat(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 40) ,),),
              const SizedBox(height: 600,),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,  children: [
+            Row(mainAxisAlignment: MainAxisAlignment.end,  children: [
               ElevatedButton(onPressed: ()
               {
-                Navigator.push(context, MaterialPageRoute(builder: (ctx)=>const Screencreateaccount1()));
-              },style: ElevatedButton.styleFrom(backgroundColor: Colors.white,
+                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: const LoginScreen()));
+              },
+              
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.white,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
-              child: Text('Sign Up',style: GoogleFonts.montserrat(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),)),
-              ElevatedButton(onPressed: ()
-              {
-                Navigator.push(context, MaterialPageRoute(builder: (ctx)=>const LoginScreen()));
-              },style: ElevatedButton.styleFrom(backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
-              child: Text('Login',style: GoogleFonts.montserrat(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),))
+              child: Text('Get Started',style: GoogleFonts.montserrat(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),))
             ],)
           ],
         ),

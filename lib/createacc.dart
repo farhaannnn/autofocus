@@ -4,6 +4,9 @@ import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
+
+import 'home.dart';
 
 class Screencreateaccount1 extends StatelessWidget {
   const Screencreateaccount1({super.key});
@@ -41,7 +44,11 @@ class Screencreateaccount1 extends StatelessWidget {
               
               const SizedBox(height: 40),
               
-              SizedBox(width: 200,height: 50,child: ElevatedButton(onPressed:(){},style: ElevatedButton.styleFrom(backgroundColor: Colors.white,
+              SizedBox(width: 200,height: 50,child: ElevatedButton(onPressed:()
+              {
+                Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeftWithFade, child: const Homescreen()));
+              }
+              ,style: ElevatedButton.styleFrom(backgroundColor: Colors.white,
                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
                  child:  Text('Sign Up',style: GoogleFonts.montserrat(fontWeight: FontWeight.bold,fontSize: 20),))),
               
@@ -56,13 +63,14 @@ class Screencreateaccount1 extends StatelessWidget {
                 onPressed: () {},),
               ),
               const SizedBox(height: 20),
+
+
               SizedBox(width: double.infinity,height:50,
                 child: Row(mainAxisAlignment: MainAxisAlignment.center,    children: [
                   Text('Already have an account?',style: GoogleFonts.montserrat(color: Colors.white)),
                   TextButton(onPressed: ()
-                  {
-                    //Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx)=>const LoginScreen()));
-                  }, child: Text('Login',style: GoogleFonts.montserrat(color: Colors.white)))
+                  {},
+                   child: Text('Login',style: GoogleFonts.montserrat(color: Colors.white)))
                 ],),
               ),
               TextButton(onPressed: (){

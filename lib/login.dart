@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
+
+import 'home.dart';
 //import 'package:google_fonts/google_fonts.dart';
 //Testing Commits//
 
@@ -83,9 +86,9 @@ class LoginScreen extends StatelessWidget {
                     children: [
                       TextButton(onPressed: ()
                       {
-                        //Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx1)=>const Screencreateaccount1()));
+                        Navigator.push(context,PageTransition(type: PageTransitionType.rightToLeftWithFade, child: const Screencreateaccount1()));
                       },
-                     child:  Text('New user?Register',style: GoogleFonts.montserrat(color: Colors.white),)),
+                     child:  Text('New user? Register',style: GoogleFonts.montserrat(color: Colors.white),)),
                       
                       TextButton(
                           onPressed: () {
@@ -98,11 +101,14 @@ class LoginScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                       
                 //LOGIN BUTTON
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () 
+                  {
+                    Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeftWithFade, child: const Homescreen()));
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
                   ),
