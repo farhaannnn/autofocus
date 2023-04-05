@@ -65,14 +65,14 @@ class Screencreateaccount1 extends StatelessWidget {
               const SizedBox(height: 20),
 
 
-              SizedBox(width: double.infinity,height:50,
-                child: Row(mainAxisAlignment: MainAxisAlignment.center,    children: [
-                  Text('Already have an account?',style: GoogleFonts.montserrat(color: Colors.white)),
-                  TextButton(onPressed: ()
-                  {},
-                   child: Text('Login',style: GoogleFonts.montserrat(color: Colors.white)))
-                ],),
-              ),
+              //SizedBox(width: double.infinity,height:50,
+                //child: Row(mainAxisAlignment: MainAxisAlignment.center,    children: [
+                 // Text('Already have an account?',style: GoogleFonts.montserrat(color: Colors.white)),
+                 // TextButton(onPressed: ()
+                 // {},
+                 //  child: Text('Login',style: GoogleFonts.montserrat(color: Colors.white)))
+                //],),
+              //),
               TextButton(onPressed: (){
                     Navigator.pop(context);
                   }, child: const Text('back'))

@@ -138,9 +138,9 @@ class LoginScreen extends StatelessWidget {
                     text: "Google",
                     onPressed: () {},),
                   ),
-                  TextButton(onPressed: (){
-                    Navigator.pop(context);
-                  }, child: const Text('back'))
+                 //TextButton(onPressed: (){
+                    //Navigator.pop(context);
+                  //}, child: const Text('back'))
                       
                 //GOOGLE LOGIN ICON
                      

@@ -25,7 +25,7 @@ class Intro1 extends StatelessWidget {
                 Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: const LoginScreen()));
               },
               
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.white,
+              style: ElevatedButton.styleFrom(minimumSize: Size.square(50),    backgroundColor: Colors.white,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
               child: Text('Get Started',style: GoogleFonts.montserrat(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),))
             ],)

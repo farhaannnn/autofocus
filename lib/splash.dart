@@ -39,6 +39,6 @@ class _SplashscreenState extends State<Splashscreen> {
 
   Future<void>start()async{
     await Future.delayed(const Duration(seconds: 3));
-    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeftWithFade, child: Intro1()));
+    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.bottomToTop, child: const Intro1()));
 }
 }
