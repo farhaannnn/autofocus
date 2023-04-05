@@ -32,7 +32,7 @@ class _SplashscreenState extends State<Splashscreen> {
       backgroundColor: Colors.black,
       body: SafeArea(child: Padding(
         padding: const EdgeInsets.only(left: 20,right: 20),
-        child: Center(child: Image.asset('assets/istockphoto-1163267995-1024x1024 (1)-photoaidcom-cropped.jpg',width: 170,height: 170,) ),
+        child: Center(child: Image.asset('assets/logo.jpg',width: 170,height: 170,) ),
       ))
     );
   }
