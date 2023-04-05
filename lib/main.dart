@@ -1,4 +1,5 @@
 import 'package:auto_focus/intro.dart';
+import 'package:auto_focus/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
       theme: ThemeData(primarySwatch: Colors.grey),
-      home:  const Intro1(),
+      home:  const Splashscreen(),
     );
   }
 }
