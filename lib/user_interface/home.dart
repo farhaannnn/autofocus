@@ -1,4 +1,4 @@
-import 'package:auto_focus/login.dart';
+import 'package:auto_focus/user_interface/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -24,6 +24,7 @@ class _HomescreenState extends State<Homescreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      appBar: AppBar(title: const Text("Home"),backgroundColor: Color.fromARGB(255, 246, 37, 22),),
       body: SafeArea(
           child: Column(
         children: [
@@ -51,46 +52,49 @@ class _HomescreenState extends State<Homescreen> {
                     Row(
                       children: [
                         const Text(
-                          'ADD YOUR ',
+                          '         ADD YOUR ',
                           style: TextStyle(color: Colors.white),
                         ),
                         const Text(
                           'VEHICLE',
                           style: TextStyle(color: Colors.red),
                         ),
-                        SizedBox(width: 170),
+                        const SizedBox(width: 145),
                         ElevatedButton(
                           onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            padding: const EdgeInsets.all(20),
+                            backgroundColor: Colors.black,
+                          ),
+
                           child: const Icon(
                             Icons.add,
                             color: Colors.white,
                           ),
-                          style: ElevatedButton.styleFrom(
-                            shape: const CircleBorder(),
-                            padding: const EdgeInsets.all(20),
-                            backgroundColor: Colors.red,
-                          ),
                         )
                       ],
                     ),
-                    Image.asset('assets/car.jpg'),
+                    Image.asset('assets/car (1).jpg'),
                   ],
                 )),
           )
         ],
       )),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.black,
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
           BottomNavigationBarItem(
               icon: Icon(Icons.handshake), label: 'bookings'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings), label: 'settings'),
+              icon: Icon(Icons.help), label: 'help'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'profile'),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.indigo,
+        selectedItemColor: Colors.red,
+        unselectedItemColor: Colors.white,
         onTap: _ontapped,
       ),
     );

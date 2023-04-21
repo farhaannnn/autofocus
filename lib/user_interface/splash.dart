@@ -1,7 +1,7 @@
 
 
-import 'package:auto_focus/createacc.dart';
-import 'package:auto_focus/intro.dart';
+import 'package:auto_focus/user_interface/createacc.dart';
+import 'package:auto_focus/user_interface/intro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
