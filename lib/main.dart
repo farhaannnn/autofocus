@@ -1,3 +1,4 @@
+import 'package:auto_focus/company_interface/details.dart';
 import 'package:auto_focus/company_interface/start.dart';
 import 'package:auto_focus/user_interface/intro.dart';
 import 'package:auto_focus/user_interface/splash.dart';
@@ -8,16 +9,17 @@ import 'user_interface/createacc.dart';
 
 void main() 
 {
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+ 
+  
+   MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
       theme: ThemeData(primarySwatch: Colors.grey),
-      home:  const Startscreen(),
+      home:   Detailscreen(),
     );
   }
 }
