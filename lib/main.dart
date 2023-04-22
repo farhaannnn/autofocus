@@ -1,4 +1,5 @@
 import 'package:auto_focus/company_interface/details.dart';
+import 'package:auto_focus/company_interface/signup.dart';
 import 'package:auto_focus/company_interface/start.dart';
 import 'package:auto_focus/user_interface/intro.dart';
 import 'package:auto_focus/user_interface/splash.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
       theme: ThemeData(primarySwatch: Colors.grey),
-      home:   Detailscreen(),
+      home:   Signupscreen(),
     );
   }
 }
