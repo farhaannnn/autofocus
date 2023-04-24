@@ -1,3 +1,6 @@
+import 'package:auto_focus/company_interface/details.dart';
+import 'package:auto_focus/company_interface/home.dart';
+import 'package:auto_focus/company_interface/signup.dart';
 import 'package:auto_focus/user_interface/createacc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
@@ -92,7 +95,14 @@ class Loginscreen1 extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  child:  Detailscreen(),
+                                  type:
+                                      PageTransitionType.rightToLeftWithFade));
+                        },
                         child: Text(
                           'New user? Register',
                           style: GoogleFonts.raleway(color: Colors.white),
@@ -116,7 +126,13 @@ class Loginscreen1 extends StatelessWidget {
 
               //LOGIN BUTTON
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      PageTransition(
+                          child: const Homescreen1(),
+                          type: PageTransitionType.rightToLeftWithFade));
+                },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(yellow),
                     shape: RoundedRectangleBorder(

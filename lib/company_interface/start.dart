@@ -1,7 +1,11 @@
+import 'package:auto_focus/company_interface/details.dart';
+import 'package:auto_focus/company_interface/login.dart';
+import 'package:auto_focus/company_interface/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Startscreen extends StatelessWidget {
   const Startscreen({super.key});
@@ -40,10 +44,16 @@ class Startscreen extends StatelessWidget {
 
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFFFED604),
+                          backgroundColor: const Color(0xFFFED604),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20))),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                            context,
+                            PageTransition(
+                                child: const Loginscreen1(),
+                                type: PageTransitionType.rightToLeftWithFade));
+                      },
                       child: Text('Login',
                           style: GoogleFonts.raleway(
                               color: Colors.black,
@@ -53,10 +63,16 @@ class Startscreen extends StatelessWidget {
 
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFFFED604),
+                          backgroundColor: const Color(0xFFFED604),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20))),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                child:  Detailscreen(),
+                                type: PageTransitionType.rightToLeftWithFade));
+                      },
                       child: Text('Sign Up',
                           style: GoogleFonts.raleway(
                               color: Colors.black,

@@ -1,3 +1,4 @@
+import 'package:auto_focus/company_interface/home.dart';
 import 'package:auto_focus/user_interface/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
@@ -97,7 +98,13 @@ class Signupscreen extends StatelessWidget {
                   width: 120,
                   height: 40,
                   child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                            context,
+                            PageTransition(
+                                child: const Homescreen1(),
+                                type: PageTransitionType.rightToLeftWithFade));
+                      },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(yellow),
                           shape: RoundedRectangleBorder(

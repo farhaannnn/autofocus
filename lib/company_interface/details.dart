@@ -1,7 +1,9 @@
+import 'package:auto_focus/company_interface/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Detailscreen extends StatelessWidget {
   Detailscreen({super.key});
@@ -132,7 +134,13 @@ class Detailscreen extends StatelessWidget {
                       backgroundColor: Color(yellow),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                            child: const Signupscreen(),
+                            type: PageTransitionType.rightToLeftWithFade));
+                  },
                   child: Text(
                     'Submit',
                     style: GoogleFonts.raleway(
