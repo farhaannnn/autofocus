@@ -1,7 +1,12 @@
+import 'package:auto_focus/company_interface/aboutus.dart';
+import 'package:auto_focus/company_interface/login.dart';
+import 'package:auto_focus/company_interface/profile.dart';
+import 'package:auto_focus/company_interface/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Accountscreen extends StatelessWidget {
   Accountscreen({super.key});
@@ -41,7 +46,13 @@ class Accountscreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            child: const Profilescreen(),
+                            type: PageTransitionType.rightToLeftWithFade));
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -68,7 +79,13 @@ class Accountscreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            child: Aboutscreen(),
+                            type: PageTransitionType.rightToLeftWithFade));
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -95,7 +112,9 @@ class Accountscreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, PageTransition(child: const Servicescreen(), type: PageTransitionType.rightToLeftWithFade));
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -122,7 +141,14 @@ class Accountscreen extends StatelessWidget {
                       backgroundColor: Color(yellow),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20))),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        PageTransition(
+                            child: const Loginscreen1(),
+                            type: PageTransitionType.leftToRightWithFade),
+                        (route) => false);
+                  },
                   child: Text(
                     'Logout',
                     style: GoogleFonts.raleway(

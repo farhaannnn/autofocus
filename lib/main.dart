@@ -1,5 +1,7 @@
+import 'package:auto_focus/company_interface/aboutus.dart';
 import 'package:auto_focus/company_interface/details.dart';
 import 'package:auto_focus/company_interface/home.dart';
+import 'package:auto_focus/company_interface/profile.dart';
 import 'package:auto_focus/company_interface/signup.dart';
 import 'package:auto_focus/company_interface/start.dart';
 import 'package:auto_focus/user_interface/intro.dart';

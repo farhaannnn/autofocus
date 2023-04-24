@@ -67,7 +67,7 @@ class Startscreen extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20))),
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             PageTransition(
                                 child:  Detailscreen(),
