@@ -1,3 +1,5 @@
+import 'package:auto_focus/company_interface/start.dart';
+import 'package:auto_focus/user_interface/bottomnav.dart';
 import 'package:auto_focus/user_interface/createacc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
@@ -88,15 +90,16 @@ class LoginScreen extends StatelessWidget {
                       {
                         Navigator.push(context,PageTransition(type: PageTransitionType.rightToLeftWithFade, child: const Screencreateaccount1()));
                       },
-                     child:  Text('New user? Register',style: GoogleFonts.montserrat(color: Colors.white),)),
+                     child:  Text(' Register',style: GoogleFonts.montserrat(color: Colors.white),)),
                       
                       TextButton(
                           onPressed: () {
+                            Navigator.push(context, PageTransition(child: Startscreen(), type: PageTransitionType.bottomToTop));
                             //print("Pressed");
                           },
                           child:  SingleChildScrollView(
                             child: Text(
-                              "",
+                              "Service Provider?",
                               style: GoogleFonts.montserrat (color: Colors.white),
                             ),
                           )),
@@ -109,7 +112,7 @@ class LoginScreen extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () 
                   {
-                    Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeftWithFade, child: const Homescreen()));
+                    Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeftWithFade, child: const Bottomnav()));
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(Colors.white),

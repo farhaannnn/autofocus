@@ -2,6 +2,7 @@ import 'package:auto_focus/user_interface/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 class Homescreen extends StatefulWidget {
@@ -12,34 +13,25 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
-  int _selectedIndex = 0;
 
-  void _ontapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(title: const Text("Home"),backgroundColor: Color.fromARGB(255, 246, 37, 22),),
       body: SafeArea(
-          child: Column(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ElevatedButton(
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.leftToRightWithFade,
-                        child: const LoginScreen()),
-                    (route) => false);
-              },
-              child: const Text('LOGOUT')),
+          Padding(
+            padding: const EdgeInsets.all(25.0),
+            child: Text(
+              'Home',
+              style: GoogleFonts.montserrat(
+                  color: Colors.red, fontSize: 25, fontWeight: FontWeight.bold),
+            ),
+          ),
           const SizedBox(
-            height: 20,
+            height: 10,
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
@@ -59,7 +51,7 @@ class _HomescreenState extends State<Homescreen> {
                           'VEHICLE',
                           style: TextStyle(color: Colors.red),
                         ),
-                        const SizedBox(width: 145),
+                        const SizedBox(width: 105),
                         ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
@@ -67,7 +59,6 @@ class _HomescreenState extends State<Homescreen> {
                             padding: const EdgeInsets.all(20),
                             backgroundColor: Colors.black,
                           ),
-
                           child: const Icon(
                             Icons.add,
                             color: Colors.white,
@@ -81,22 +72,7 @@ class _HomescreenState extends State<Homescreen> {
           )
         ],
       )),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black,
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.handshake), label: 'bookings'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.help), label: 'help'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'profile'),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.red,
-        unselectedItemColor: Colors.white,
-        onTap: _ontapped,
-      ),
+      
     );
   }
 }
