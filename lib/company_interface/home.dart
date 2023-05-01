@@ -18,7 +18,7 @@ class Homescreen1 extends StatefulWidget {
 
 class _Homescreen1State extends State<Homescreen1> {
   int _selectedIndex = 0;
-  final _screens = [Requestscreen(),  Historyscreen(),  Accountscreen()];
+  final _screens = [Requestscreen(), Historyscreen(), Accountscreen()];
   void _ontapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -33,7 +33,7 @@ class _Homescreen1State extends State<Homescreen1> {
       resizeToAvoidBottomInset: false,
       //bottom navigation bar
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black,
+          backgroundColor: Colors.black,
           currentIndex: _selectedIndex,
           selectedItemColor: const Color(Homescreen1.yellow),
           unselectedItemColor: const Color(Homescreen1.grey),

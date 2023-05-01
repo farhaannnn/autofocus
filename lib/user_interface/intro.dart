@@ -45,7 +45,7 @@ class Intro1 extends StatelessWidget {
                               context,
                               PageTransition(
                                   type: PageTransitionType.rightToLeftWithFade,
-                                  child: const LoginScreen()));
+                                  child:  LoginScreen()));
                         },
                         style: ElevatedButton.styleFrom(
                             minimumSize: const Size.square(50),

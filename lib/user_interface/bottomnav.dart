@@ -16,7 +16,12 @@ class Bottomnav extends StatefulWidget {
 
 class _BottomnavState extends State<Bottomnav> {
   int _selectedIndex = 0;
-  final _screens1=[Homescreen(),Bookingscreen(),Supportscreen(),Accountscreen1()];
+  final _screens1 = [
+    const Homescreen(),
+    const Bookingscreen(),
+    const Supportscreen(),
+    const Accountscreen1()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +29,9 @@ class _BottomnavState extends State<Bottomnav> {
       body: _screens1[_selectedIndex],
       backgroundColor: Colors.black,
       resizeToAvoidBottomInset: false,
-      bottomNavigationBar: BottomNavigationBar(backgroundColor: Colors.black,
+      bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.black,
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.red,
           unselectedItemColor: Colors.white,

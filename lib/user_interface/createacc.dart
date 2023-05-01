@@ -1,3 +1,4 @@
+import 'package:auto_focus/services/auth_services.dart';
 import 'package:auto_focus/user_interface/bottomnav.dart';
 import 'package:auto_focus/user_interface/login.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +10,32 @@ import 'package:page_transition/page_transition.dart';
 
 import 'home.dart';
 
-//Myr
-class Screencreateaccount1 extends StatelessWidget {
+class Screencreateaccount1 extends StatefulWidget {
   const Screencreateaccount1({super.key});
+
+  @override
+  State<Screencreateaccount1> createState() => _Screencreateaccount1State();
+}
+
+class _Screencreateaccount1State extends State<Screencreateaccount1> {
+  final _emailcontroller = TextEditingController();
+
+  final _passwordcontroller = TextEditingController();
+
+  _signup() async {
+    String email = _emailcontroller.text.trim();
+    String password = _passwordcontroller.text.trim();
+    String res = await AuthServices.signup(email: email, password: password);
+    if (res != "success") {
+      print(res);
+      return;
+    }
+    Navigator.pushReplacement(
+        context,
+        PageTransition(
+            type: PageTransitionType.rightToLeftWithFade,
+            child: const Bottomnav()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +72,7 @@ class Screencreateaccount1 extends StatelessWidget {
                 height: 100,
               ),
               TextFormField(
+                controller: _emailcontroller,
                 decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.mail),
                     prefixIconColor: Colors.black,
@@ -61,6 +86,7 @@ class Screencreateaccount1 extends StatelessWidget {
               const SizedBox(height: 20),
 
               TextFormField(
+                controller: _passwordcontroller,
                 decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.lock),
                     prefixIconColor: Colors.black,
@@ -91,11 +117,7 @@ class Screencreateaccount1 extends StatelessWidget {
                   height: 50,
                   child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            PageTransition(
-                                type: PageTransitionType.rightToLeftWithFade,
-                                child: const Bottomnav()));
+                        _signup();
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,

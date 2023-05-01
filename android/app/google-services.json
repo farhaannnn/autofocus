@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "569054502256",
+    "project_id": "auto-focus-5607e",
+    "storage_bucket": "auto-focus-5607e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:569054502256:android:13763fbbc469bc697603b5",
+        "android_client_info": {
+          "package_name": "com.example.auto_focus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "569054502256-8hrub7icom20p43rbpds5ncubu20sujj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQNOd2ZpX64zBSPON84GsHP6CH0fz_728"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "569054502256-8hrub7icom20p43rbpds5ncubu20sujj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
