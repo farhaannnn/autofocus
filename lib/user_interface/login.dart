@@ -21,7 +21,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _emailcontroller = TextEditingController();
-
   final _passwordcontroller = TextEditingController();
 
   _loginuser() async {
@@ -29,10 +28,18 @@ class _LoginScreenState extends State<LoginScreen> {
     String password = _passwordcontroller.text.trim();
     String res = await AuthServices.login(email: email, password: password);
     if (res != "success") {
-      print(res);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        content: Text(
+          'Invalid Username or Password',
+          style: GoogleFonts.raleway(fontSize: 15, fontWeight: FontWeight.w600),
+        ),
+        backgroundColor: Colors.red,
+        duration: const Duration(seconds: 3),
+      ));
       return;
     }
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         PageTransition(
             type: PageTransitionType.rightToLeftWithFade,
@@ -56,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Text(
                   "Hey,\nWelcome Back",
                   style: GoogleFonts.montserrat(
-                    fontSize: 40,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
@@ -76,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         prefixIcon: Icon(Icons.mail),
                         prefixIconColor: Colors.black,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
                         ),
                         filled: true,
                         fillColor: Colors.grey,
@@ -86,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ))),
               )),
               const SizedBox(
-                height: 17,
+                height: 50,
               ),
 
               // PASSWORD TEXTFIELD
@@ -100,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         prefixIcon: Icon(Icons.lock),
                         prefixIconColor: Colors.black,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
                         ),
                         filled: true,
                         fillColor: Colors.grey,
@@ -119,11 +126,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     TextButton(
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               PageTransition(
                                   type: PageTransitionType.rightToLeftWithFade,
-                                  child:  Screencreateaccount1()));
+                                  child: const Screencreateaccount1()));
                         },
                         child: Text(
                           ' Register',
@@ -134,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                               context,
                               PageTransition(
-                                  child: Startscreen(),
+                                  child: const Startscreen(),
                                   type: PageTransitionType.bottomToTop));
                           //print("Pressed");
                         },

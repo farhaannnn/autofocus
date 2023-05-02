@@ -19,22 +19,56 @@ class Screencreateaccount1 extends StatefulWidget {
 
 class _Screencreateaccount1State extends State<Screencreateaccount1> {
   final _emailcontroller = TextEditingController();
-
+  final _passwordcontroller2 = TextEditingController();
   final _passwordcontroller = TextEditingController();
 
   _signup() async {
     String email = _emailcontroller.text.trim();
     String password = _passwordcontroller.text.trim();
-    String res = await AuthServices.signup(email: email, password: password);
-    if (res != "success") {
-      print(res);
-      return;
+    String password2 = _passwordcontroller2.text.trim();
+
+    //check if any fields are empty
+
+    if (email.isEmpty|| password.isEmpty || password2.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 3),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          content: Text(
+            'One or more fields are empty',
+            style:
+                GoogleFonts.raleway(fontSize: 15, fontWeight: FontWeight.w600),
+          )));
+    } else {
+      
+      //check if both passwords are equal
+
+      if (password == password2) {
+        String res =
+            await AuthServices.signup(email: email, password: password);
+        if (res != "success") {
+          print(res);
+          return;
+        }
+        Navigator.pushReplacement(
+            context,
+            PageTransition(
+                type: PageTransitionType.rightToLeftWithFade,
+                child: const Bottomnav()));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            duration: const Duration(seconds: 3),
+            backgroundColor: Colors.red,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            content: Text(
+              "Passwords don't match",
+              style: GoogleFonts.raleway(
+                  fontSize: 15, fontWeight: FontWeight.w600),
+            )));
+      }
     }
-    Navigator.pushReplacement(
-        context,
-        PageTransition(
-            type: PageTransitionType.rightToLeftWithFade,
-            child: const Bottomnav()));
   }
 
   @override
@@ -100,6 +134,7 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
               const SizedBox(height: 20),
 
               TextFormField(
+                controller: _passwordcontroller2,
                 decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.lock),
                     prefixIconColor: Colors.black,
