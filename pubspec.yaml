@@ -60,6 +60,10 @@ flutter:
     - assets\car (1).jpg
     - assets\1a6a58f1c30d8bb8ae2e4f5d324c12b2.jpg
     - assets\Android Small - 2.jpg
+    - assets\alignment-2.jpg
+    - assets\cleaning-steam-smoke-pressure-thumbnail.jpg
+    - assets\oil.jpg
+    - assets\WhatsApp Image 2023-05-03 at 7.09.54 PM.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

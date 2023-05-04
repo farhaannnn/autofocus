@@ -1,9 +1,14 @@
+import 'package:auto_focus/user_interface/acservice.dart';
+import 'package:auto_focus/user_interface/alignment.dart';
 import 'package:auto_focus/user_interface/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+
+import 'carwash.dart';
+import 'oilservice.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -13,14 +18,13 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.all(25.0),
@@ -67,12 +71,76 @@ class _HomescreenState extends State<Homescreen> {
                       ],
                     ),
                     Image.asset('assets/car (1).jpg'),
+                    const SizedBox(
+                      height: 50,
+                    ),
                   ],
                 )),
-          )
+          ),
+          SizedBox(height: 50,),
+             Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          width: 50,
+                          height: 50,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    PageTransition(
+                                        child: const ACServiceScreen(),
+                                        type: PageTransitionType
+                                            .rightToLeftWithFade));
+                              },
+                              child: const Text('ac')),
+                        ),
+                        Container(
+                          width: 50,
+                          height: 50,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    PageTransition(
+                                        child: const OilServiceScreen(),
+                                        type: PageTransitionType
+                                            .rightToLeftWithFade));
+                              },
+                              child: const Text('oil')),
+                        ),
+                        Container(
+                          width: 50,
+                          height: 50,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    PageTransition(
+                                        child: const WheelalignmentScreen(),
+                                        type: PageTransitionType
+                                            .rightToLeftWithFade));
+                              },
+                              child: const Text('wheel')),
+                        ),
+                        Container(
+                          width: 50,
+                          height: 50,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    PageTransition(
+                                        child: const CarwashScreen(),
+                                        type: PageTransitionType
+                                            .rightToLeftWithFade));
+                              },
+                              child: const Text('wash')),
+                        ),
+                      ],
+                    )
         ],
       )),
-      
     );
   }
 }
