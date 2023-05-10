@@ -21,15 +21,17 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
   final _emailcontroller = TextEditingController();
   final _passwordcontroller2 = TextEditingController();
   final _passwordcontroller = TextEditingController();
+  final _namecontroller=TextEditingController();
 
   _signup() async {
     String email = _emailcontroller.text.trim();
     String password = _passwordcontroller.text.trim();
     String password2 = _passwordcontroller2.text.trim();
+    String name=_namecontroller.text.trim();
 
     //check if any fields are empty
 
-    if (email.isEmpty|| password.isEmpty || password2.isEmpty) {
+    if (email.isEmpty || password.isEmpty || password2.isEmpty||name.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.red,
           duration: const Duration(seconds: 3),
@@ -41,12 +43,11 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
                 GoogleFonts.raleway(fontSize: 15, fontWeight: FontWeight.w600),
           )));
     } else {
-      
       //check if both passwords are equal
 
       if (password == password2) {
         String res =
-            await AuthServices.signup(email: email, password: password);
+            await AuthServices.signup(email: email, password: password,name: name);
         if (res != "success") {
           print(res);
           return;
@@ -103,8 +104,20 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
               ),
 
               const SizedBox(
-                height: 100,
+                height: 50,
               ),
+              TextFormField(
+                controller:_namecontroller,
+                decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.person_4),
+                    prefixIconColor: Colors.black,
+                    filled: true,
+                    hintText: 'Name',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    fillColor: Color.fromARGB(255, 169, 167, 167)),
+              ),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: _emailcontroller,
                 decoration: const InputDecoration(
@@ -119,7 +132,7 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
 
               const SizedBox(height: 20),
 
-              TextFormField(
+              TextFormField(obscureText: true,
                 controller: _passwordcontroller,
                 decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.lock),
@@ -133,7 +146,7 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
 
               const SizedBox(height: 20),
 
-              TextFormField(
+              TextFormField(obscureText: true,
                 controller: _passwordcontroller2,
                 decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.lock),
@@ -161,10 +174,12 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
                       child: Text(
                         'Sign Up',
                         style: GoogleFonts.montserrat(
-                            fontWeight: FontWeight.bold, fontSize: 20),
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
                       ))),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               Text(
                 'or continue with',
                 style: GoogleFonts.montserrat(color: Colors.white),
@@ -190,11 +205,6 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
               //  child: Text('Login',style: GoogleFonts.montserrat(color: Colors.white)))
               //],),
               //),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('back'))
             ],
           ),
         ),

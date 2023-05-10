@@ -5,7 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
 import 'bookings.dart';
-import 'support.dart';
+
 
 class Bottomnav extends StatefulWidget {
   const Bottomnav({super.key});
@@ -19,7 +19,6 @@ class _BottomnavState extends State<Bottomnav> {
   final _screens1 = [
     const Homescreen(),
     const Bookingscreen(),
-    const Supportscreen(),
     const Accountscreen1()
   ];
 
@@ -40,7 +39,6 @@ class _BottomnavState extends State<Bottomnav> {
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'HOME'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.handshake), label: 'BOOKINGS'),
-            BottomNavigationBarItem(icon: Icon(Icons.call), label: 'SUPPORT'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'ACCOUNT')
           ]),
     );

@@ -138,6 +138,13 @@ class _HomescreenState extends State<Homescreen> {
                               child: const Text('wash')),
                         ),
                       ],
+                    ),
+                    SizedBox(height: 60,),
+                    Center(child: Text('Locate nearby service stations',style: GoogleFonts.raleway(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white),)),
+                    SizedBox(height: 20,),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 50,right: 50),
+                      child: Container(height: 110,width: double.infinity,color: Colors.grey,child: Icon(Icons.location_on,color: Colors.red,size: 50,),),
                     )
         ],
       )),

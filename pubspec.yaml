@@ -38,6 +38,7 @@ dependencies:
   get: ^4.6.5
   google_fonts: ^4.0.3
   page_transition: ^2.0.9
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -64,6 +65,7 @@ flutter:
     - assets\cleaning-steam-smoke-pressure-thumbnail.jpg
     - assets\oil.jpg
     - assets\WhatsApp Image 2023-05-03 at 7.09.54 PM.jpeg
+    - assets\Jeep.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

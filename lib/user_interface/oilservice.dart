@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
+
+import 'confirmation.dart';
 
 class OilServiceScreen extends StatelessWidget {
   const OilServiceScreen({super.key});
@@ -136,7 +139,9 @@ class OilServiceScreen extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, PageTransition(child: booking(), type: PageTransitionType.rightToLeftWithFade));
+                  },
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.red),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(

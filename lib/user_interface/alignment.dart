@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
+
+import 'confirmation.dart';
 
 class WheelalignmentScreen extends StatelessWidget {
   const WheelalignmentScreen({super.key});
@@ -123,7 +126,7 @@ class WheelalignmentScreen extends StatelessWidget {
                           Text(
                             "-Experience smoother driving\n\n-Improve Vehicle Safety\n\n- Improve fuel efficiency",
                             style: GoogleFonts.raleway(
-                                color: Colors.white, fontSize: 1),
+                                color: Colors.white, fontSize: 15),
                           ),
                         ],
                       ))
@@ -136,7 +139,9 @@ class WheelalignmentScreen extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, PageTransition(child: booking(), type: PageTransitionType.rightToLeftWithFade));
+                  },
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.red),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(

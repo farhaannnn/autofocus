@@ -77,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Center(
                   child: SizedBox(
                 width: 380,
-                child: TextFormField(
+                child: TextFormField(cursorColor: Colors.black,
                     controller: _emailcontroller,
                     decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.mail),
@@ -101,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Center(
                   child: SizedBox(
                 width: 380,
-                child: TextFormField(
+                child: TextFormField(obscureText: true,
                     controller: _passwordcontroller,
                     decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.lock),
