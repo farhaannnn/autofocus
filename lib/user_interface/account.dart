@@ -51,13 +51,13 @@ class Accountscreen1 extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Icon(Icons.person),
+                        const Icon(Icons.person,color: Colors.black,),
                         Text('My Profile',
                             style: GoogleFonts.raleway(
                                 color: Colors.black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600)),
-                        const Icon(Icons.arrow_forward_ios_rounded)
+                        const Icon(Icons.arrow_forward_ios_rounded,color: Colors.black,)
                       ],
                     )),
                 const SizedBox(
@@ -73,13 +73,13 @@ class Accountscreen1 extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Icon(Icons.car_rental),
+                        const Icon(Icons.car_rental,color: Colors.black,),
                         Text('My Vehicles',
                             style: GoogleFonts.raleway(
                                 color: Colors.black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600)),
-                        const Icon(Icons.arrow_forward_ios_rounded)
+                        const Icon(Icons.arrow_forward_ios_rounded,color: Colors.black,)
                       ],
                     )),
                 const SizedBox(
@@ -101,13 +101,13 @@ class Accountscreen1 extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Icon(Icons.info),
+                        const Icon(Icons.info,color: Colors.black,),
                         Text('About Us',
                             style: GoogleFonts.raleway(
                                 color: Colors.black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600)),
-                        const Icon(Icons.arrow_forward_ios_rounded)
+                        const Icon(Icons.arrow_forward_ios_rounded,color: Colors.black,)
                       ],
                     )),
                 const SizedBox(
@@ -123,13 +123,13 @@ class Accountscreen1 extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Icon(Icons.work_outline_rounded),
+                        const Icon(Icons.work_outline_rounded,color: Colors.black,),
                         Text('Register as Partner',
                             style: GoogleFonts.raleway(
                                 color: Colors.black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600)),
-                        const Icon(Icons.arrow_forward_ios_rounded)
+                        const Icon(Icons.arrow_forward_ios_rounded, color: Colors.black,)
                       ],
                     )),
                 const SizedBox(
