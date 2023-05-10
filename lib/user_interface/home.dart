@@ -1,3 +1,4 @@
+import 'package:auto_focus/m_y_i_c_o_n_s_icons.dart';
 import 'package:auto_focus/user_interface/acservice.dart';
 import 'package:auto_focus/user_interface/alignment.dart';
 import 'package:auto_focus/user_interface/login.dart';
@@ -77,75 +78,111 @@ class _HomescreenState extends State<Homescreen> {
                   ],
                 )),
           ),
-          SizedBox(height: 50,),
-             Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 50,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    PageTransition(
-                                        child: const ACServiceScreen(),
-                                        type: PageTransitionType
-                                            .rightToLeftWithFade));
-                              },
-                              child: const Text('ac')),
-                        ),
-                        Container(
-                          width: 50,
-                          height: 50,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    PageTransition(
-                                        child: const OilServiceScreen(),
-                                        type: PageTransitionType
-                                            .rightToLeftWithFade));
-                              },
-                              child: const Text('oil')),
-                        ),
-                        Container(
-                          width: 50,
-                          height: 50,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    PageTransition(
-                                        child: const WheelalignmentScreen(),
-                                        type: PageTransitionType
-                                            .rightToLeftWithFade));
-                              },
-                              child: const Text('wheel')),
-                        ),
-                        Container(
-                          width: 50,
-                          height: 50,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    PageTransition(
-                                        child: const CarwashScreen(),
-                                        type: PageTransitionType
-                                            .rightToLeftWithFade));
-                              },
-                              child: const Text('wash')),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 60,),
-                    Center(child: Text('Locate nearby service stations',style: GoogleFonts.raleway(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white),)),
-                    SizedBox(height: 20,),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 50,right: 50),
-                      child: Container(height: 110,width: double.infinity,color: Colors.grey,child: Icon(Icons.location_on,color: Colors.red,size: 50,),),
-                    )
+          const SizedBox(
+            height: 50,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                width: 50,
+                height: 50,
+                child: ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              child: const ACServiceScreen(),
+                              type: PageTransitionType.rightToLeftWithFade));
+                    },
+                    child: const Icon(
+                      MYICONS.ac_unit,
+                      color: Colors.black,
+                    )),
+              ),
+              Container(
+                width: 50,
+                height: 50,
+                child: ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              child: const OilServiceScreen(),
+                              type: PageTransitionType.rightToLeftWithFade));
+                    },
+                    child: const Icon(
+                      MYICONS.oil_can,
+                      color: Colors.black,
+                    )),
+              ),
+              Container(
+                width: 50,
+                height: 50,
+                child: ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              child: const WheelalignmentScreen(),
+                              type: PageTransitionType.rightToLeftWithFade));
+                    },
+                    child: const Icon(
+                      MYICONS.cog_wheel,
+                      color: Colors.black,
+                    )),
+              ),
+              Container(
+                width: 50,
+                height: 50,
+                child: ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              child: const CarwashScreen(),
+                              type: PageTransitionType.rightToLeftWithFade));
+                    },
+                    child: const Icon(
+                      MYICONS.local_car_wash,
+                      color: Colors.black,
+                    )),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 60,
+          ),
+          Center(
+              child: Text(
+            'Locate nearby service stations',
+            style: GoogleFonts.raleway(
+                fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
+          )),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 50, right: 50),
+            child: Container(
+              height: 110,
+              width: double.infinity,
+              color: Colors.grey,
+              child: const Icon(
+                Icons.location_on,
+                color: Colors.red,
+                size: 50,
+              ),
+            ),
+          )
         ],
       )),
     );
