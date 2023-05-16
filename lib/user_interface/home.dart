@@ -2,6 +2,7 @@ import 'package:auto_focus/m_y_i_c_o_n_s_icons.dart';
 import 'package:auto_focus/user_interface/acservice.dart';
 import 'package:auto_focus/user_interface/alignment.dart';
 import 'package:auto_focus/user_interface/login.dart';
+import 'package:auto_focus/user_interface/searchscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -58,7 +59,9 @@ class _HomescreenState extends State<Homescreen> {
                         ),
                         const SizedBox(width: 105),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context, PageTransition(child: Searchscreen(), type: PageTransitionType.rightToLeftWithFade));
+                          },
                           style: ElevatedButton.styleFrom(
                             shape: const CircleBorder(),
                             padding: const EdgeInsets.all(20),

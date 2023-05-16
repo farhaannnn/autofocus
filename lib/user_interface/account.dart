@@ -1,4 +1,3 @@
-
 import 'package:auto_focus/company_interface/start.dart';
 import 'package:auto_focus/user_interface/aboutus.dart';
 import 'package:auto_focus/user_interface/login.dart';
@@ -11,6 +10,47 @@ import 'package:page_transition/page_transition.dart';
 
 class Accountscreen1 extends StatelessWidget {
   const Accountscreen1({super.key});
+
+  showvehicles()
+  {
+    return ListView.builder(itemCount: 2,itemBuilder: (context, index) {
+      return Container(
+        color: Colors.green,
+        height: 30
+,        width: 10,
+      );
+    },);
+  }
+
+  myvehicles(context) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 400,
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(15),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                 Text('My vehicles',style: GoogleFonts.raleway(fontSize: 15,fontWeight: FontWeight.w600),),
+                 
+                 
+                Row(mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {}, child: const Text('Add next vehicle'))
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,21 +83,29 @@ class Accountscreen1 extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20)),
                         backgroundColor: Colors.white,
                         minimumSize: const Size.fromHeight(50)),
-                    onPressed: () {Navigator.push(
+                    onPressed: () {
+                      Navigator.push(
                           context,
                           PageTransition(
-                              child: Profilescreen(),
-                              type: PageTransitionType.rightToLeftWithFade));},
+                              child: const Profilescreen(),
+                              type: PageTransitionType.rightToLeftWithFade));
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Icon(Icons.person,color: Colors.black,),
+                        const Icon(
+                          Icons.person,
+                          color: Colors.black,
+                        ),
                         Text('My Profile',
                             style: GoogleFonts.raleway(
                                 color: Colors.black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600)),
-                        const Icon(Icons.arrow_forward_ios_rounded,color: Colors.black,)
+                        const Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: Colors.black,
+                        )
                       ],
                     )),
                 const SizedBox(
@@ -69,17 +117,25 @@ class Accountscreen1 extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20)),
                         backgroundColor: Colors.white,
                         minimumSize: const Size.fromHeight(50)),
-                    onPressed: () {},
+                    onPressed: () {
+                      myvehicles(context);
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Icon(Icons.car_rental,color: Colors.black,),
+                        const Icon(
+                          Icons.car_rental,
+                          color: Colors.black,
+                        ),
                         Text('My Vehicles',
                             style: GoogleFonts.raleway(
                                 color: Colors.black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600)),
-                        const Icon(Icons.arrow_forward_ios_rounded,color: Colors.black,)
+                        const Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: Colors.black,
+                        )
                       ],
                     )),
                 const SizedBox(
@@ -101,13 +157,19 @@ class Accountscreen1 extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Icon(Icons.info,color: Colors.black,),
+                        const Icon(
+                          Icons.info,
+                          color: Colors.black,
+                        ),
                         Text('About Us',
                             style: GoogleFonts.raleway(
                                 color: Colors.black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600)),
-                        const Icon(Icons.arrow_forward_ios_rounded,color: Colors.black,)
+                        const Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: Colors.black,
+                        )
                       ],
                     )),
                 const SizedBox(
@@ -119,17 +181,30 @@ class Accountscreen1 extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20)),
                         backgroundColor: Colors.white,
                         minimumSize: const Size.fromHeight(50)),
-                    onPressed: () {Navigator.pushAndRemoveUntil(context, PageTransition(child: Startscreen(), type: PageTransitionType.rightToLeftWithFade), (route) => false);},
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          PageTransition(
+                              child: const Startscreen(),
+                              type: PageTransitionType.rightToLeftWithFade),
+                          (route) => false);
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Icon(Icons.work_outline_rounded,color: Colors.black,),
+                        const Icon(
+                          Icons.work_outline_rounded,
+                          color: Colors.black,
+                        ),
                         Text('Register as Partner',
                             style: GoogleFonts.raleway(
                                 color: Colors.black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600)),
-                        const Icon(Icons.arrow_forward_ios_rounded, color: Colors.black,)
+                        const Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: Colors.black,
+                        )
                       ],
                     )),
                 const SizedBox(
@@ -142,7 +217,12 @@ class Accountscreen1 extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20)),
                         backgroundColor: Colors.red),
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(context, PageTransition(child: LoginScreen(), type: PageTransitionType.leftToRight), (route) => false);
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          PageTransition(
+                              child: LoginScreen(),
+                              type: PageTransitionType.leftToRight),
+                          (route) => false);
                     },
                     child: Text(
                       'Logout',

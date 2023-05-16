@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../models/user_model.dart';
+
 class Profilescreen extends StatefulWidget {
   const Profilescreen({super.key});
 
@@ -11,8 +13,55 @@ class Profilescreen extends StatefulWidget {
 }
 
 class _ProfilescreenState extends State<Profilescreen> {
-  final _mobilecon=TextEditingController();
-  final _addresscon=TextEditingController();
+  final _mobilecon = TextEditingController();
+  final _addresscon = TextEditingController();
+  var _emailcon = TextEditingController();
+  var _namecon = TextEditingController();
+  
+  bool _enabled = false;
+  bool btn = false;
+  String _txt = "Edit Profile";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getname();
+  }
+
+  getname() async {
+    // await FirebaseFirestore.instance
+    //     .collection('users')
+    //     .doc(_firebaseauth.currentUser!.uid)
+    //     .get()
+    //     .then((DocumentSnapshot documentSnapshot) {
+    //    final data=documentSnapshot.data() as Map<String,dynamic>;
+    //    _namecon=data['name'];
+    //    _emailcon=data['email'];
+    // });
+    DocumentSnapshot snap = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    setState(() {
+      _emailcon.text = (snap.data() as Map<String, dynamic>)['email'];
+      _namecon.text = (snap.data() as Map<String, dynamic>)['name'];
+      _addresscon.text = (snap.data() as Map<String, dynamic>)['address'];
+      _mobilecon.text = (snap.data() as Map<String, dynamic>)['mobile'];
+    });
+  }
+
+  storedetails() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({
+      'address': _addresscon.text,
+      'mobile': _mobilecon.text,
+      'email': _emailcon.text,
+      'name': _namecon.text
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +90,13 @@ class _ProfilescreenState extends State<Profilescreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 30),
                 child: TextFormField(
+                  controller: _namecon,
+                  enabled: _enabled,
+                  cursorColor: Colors.white,
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
+                      focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white)),
                       prefixIcon: const Icon(Icons.perm_identity),
                       prefixIconColor: Colors.white,
                       label: Text(
@@ -53,13 +108,24 @@ class _ProfilescreenState extends State<Profilescreen> {
                       )),
                 ),
               ),
-              const SizedBox(
+              //const SizedBox(
+              //  height: 40,
+              // ),
+              const Divider(
                 height: 40,
+                color: Colors.white,
+                thickness: 0.1,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 30),
                 child: TextFormField(
+                  controller: _emailcon,
+                  enabled: _enabled,
+                  cursorColor: Colors.white,
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
+                      focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white)),
                       prefixIcon: const Icon(Icons.mail),
                       prefixIconColor: Colors.white,
                       label: Text(
@@ -71,13 +137,24 @@ class _ProfilescreenState extends State<Profilescreen> {
                       )),
                 ),
               ),
-              const SizedBox(
+              //const SizedBox(
+              //  height: 40,
+              // ),
+              const Divider(
                 height: 40,
+                color: Colors.white,
+                thickness: 0.1,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 30),
-                child: TextFormField(controller: _mobilecon,
+                child: TextFormField(
+                  enabled: _enabled,
+                  cursorColor: Colors.white,
+                  style: const TextStyle(color: Colors.white),
+                  controller: _mobilecon,
                   decoration: InputDecoration(
+                      focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white)),
                       prefixIcon: const Icon(Icons.phone_android),
                       prefixIconColor: Colors.white,
                       label: Text(
@@ -89,15 +166,26 @@ class _ProfilescreenState extends State<Profilescreen> {
                       )),
                 ),
               ),
-              const SizedBox(
+              //const SizedBox(
+              // height: 40,
+              //),
+              const Divider(
                 height: 40,
+                color: Colors.white,
+                thickness: 0.1,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 30),
-                child: TextFormField(controller: _addresscon,
+                child: TextFormField(
+                  enabled: _enabled,
+                  cursorColor: Colors.white,
+                  style: const TextStyle(color: Colors.white),
+                  controller: _addresscon,
                   minLines: 3,
                   maxLines: 3,
                   decoration: InputDecoration(
+                      focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white)),
                       prefixIcon: const Icon(Icons.maps_home_work),
                       prefixIconColor: Colors.white,
                       label: Text(
@@ -110,7 +198,7 @@ class _ProfilescreenState extends State<Profilescreen> {
                 ),
               ),
               const SizedBox(
-                height: 100,
+                height: 60,
               ),
               Container(
                   color: Colors.black,
@@ -120,16 +208,20 @@ class _ProfilescreenState extends State<Profilescreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                       ),
-                      onPressed: (){final FirebaseAuth auth = FirebaseAuth.instance;
-
-void inputData() {
-  final User? user = auth.currentUser;
-  final uid = user!.uid;
-  print(uid);
-  // here you write the codes to input the data into firestore
-}},
+                      onPressed: () {
+                        setState(() {
+                          _enabled = !_enabled;
+                          btn = !btn;
+                          if (btn) {
+                            _txt = "Update Profile";
+                          } else {
+                            storedetails();
+                            _txt = "Edit Profile";
+                          }
+                        });
+                      },
                       child: Text(
-                        'Update Profile',
+                        _txt,
                         style: GoogleFonts.raleway(
                             color: Colors.white,
                             fontSize: 20,
