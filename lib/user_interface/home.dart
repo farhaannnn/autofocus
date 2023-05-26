@@ -60,7 +60,12 @@ class _HomescreenState extends State<Homescreen> {
                         const SizedBox(width: 105),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.push(context, PageTransition(child: Searchscreen(), type: PageTransitionType.rightToLeftWithFade));
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    child: const Searchscreen(),
+                                    type: PageTransitionType
+                                        .rightToLeftWithFade));
                           },
                           style: ElevatedButton.styleFrom(
                             shape: const CircleBorder(),
@@ -88,7 +93,7 @@ class _HomescreenState extends State<Homescreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                width: 50,
+                width: 60,
                 height: 50,
                 child: ElevatedButton(
                     style:
@@ -106,7 +111,7 @@ class _HomescreenState extends State<Homescreen> {
                     )),
               ),
               Container(
-                width: 50,
+                width: 60,
                 height: 50,
                 child: ElevatedButton(
                     style:
@@ -124,7 +129,7 @@ class _HomescreenState extends State<Homescreen> {
                     )),
               ),
               Container(
-                width: 50,
+                width: 60,
                 height: 50,
                 child: ElevatedButton(
                     style:
@@ -142,7 +147,7 @@ class _HomescreenState extends State<Homescreen> {
                     )),
               ),
               Container(
-                width: 50,
+                width: 60,
                 height: 50,
                 child: ElevatedButton(
                     style:
@@ -160,9 +165,31 @@ class _HomescreenState extends State<Homescreen> {
                     )),
               ),
             ],
+          ),const SizedBox(height: 10,),
+          Row(
+           
+            children: [
+              const SizedBox(width: 30,),
+              Text(
+                'ac service',
+                style: GoogleFonts.raleway(color: Colors.white,fontSize: 10),
+              ),const SizedBox(width: 40,),
+              Text(
+                'oil service',
+                style: GoogleFonts.raleway(color: Colors.white,fontSize: 10),
+              ),const SizedBox(width: 20,),
+              Text(
+                'wheel alignment',
+                style: GoogleFonts.raleway(color: Colors.white,fontSize: 10),
+              ),const SizedBox(width: 25,),
+              Text(
+                'car wash',
+                style: GoogleFonts.raleway(color: Colors.white,fontSize: 10),
+              )
+            ],
           ),
           const SizedBox(
-            height: 60,
+            height: 50,
           ),
           Center(
               child: Text(

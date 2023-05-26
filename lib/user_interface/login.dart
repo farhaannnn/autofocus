@@ -1,3 +1,4 @@
+import 'package:auto_focus/company_interface/home.dart';
 import 'package:auto_focus/company_interface/start.dart';
 import 'package:auto_focus/user_interface/bottomnav.dart';
 import 'package:auto_focus/user_interface/createacc.dart';
@@ -26,10 +27,11 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordcontroller = TextEditingController();
 
   _loginuser() async {
-    String email = _emailcontroller.text.trim();
-    String password = _passwordcontroller.text.trim();
-    String res = await AuthServices.login(email: email, password: password);
-    if (res != "success") {
+    final email = _emailcontroller.text.trim();
+    final password = _passwordcontroller.text.trim();
+    final role = await AuthServices.login(email: email, password: password);
+    
+    if (role != "USER"&&role!="PARTNER") {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         content: Text(
@@ -41,11 +43,28 @@ class _LoginScreenState extends State<LoginScreen> {
       ));
       return;
     }
-    Navigator.pushReplacement(
-        context,
-        PageTransition(
-            type: PageTransitionType.rightToLeftWithFade,
-            child: const Bottomnav()));
+    // Navigator.pushReplacement(
+    //     context,
+    //     PageTransition(
+    //         type: PageTransitionType.rightToLeftWithFade,
+    //         child: const Bottomnav()));
+      Widget? page;
+      switch(role.toUpperCase())
+      {
+        case 'USER':
+        page=const Bottomnav();
+        break;
+        case 'PARTNER':
+        page=const Homescreen1();
+        break;
+        default:
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(role)));
+
+      }
+      if(page!=null)
+      {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx2)=>page!));
+      }
   }
 
   @override
@@ -123,38 +142,18 @@ class _LoginScreenState extends State<LoginScreen> {
               //FORGOT PASSWORD
               SizedBox(
                 //alignment: FractionalOffset.centerRight,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeftWithFade,
-                                  child: const Screencreateaccount1()));
-                        },
-                        child: Text(
-                          ' Register',
-                          style: GoogleFonts.montserrat(color: Colors.white),
-                        )),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  child: const Startscreen(),
-                                  type: PageTransitionType.bottomToTop));
-                          //print("Pressed");
-                        },
-                        child: SingleChildScrollView(
-                          child: Text(
-                            "Service Provider?",
-                            style: GoogleFonts.montserrat(color: Colors.white),
-                          ),
-                        )),
-                  ],
-                ),
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeftWithFade,
+                              child: const Screencreateaccount1()));
+                    },
+                    child: Text(
+                      'New User? Register here',
+                      style: GoogleFonts.montserrat(color: Colors.white),
+                    )),
               ),
               const SizedBox(
                 height: 20,
@@ -183,22 +182,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
               //SIGN IN WITH GOOGLE TEXT
 
-              Text(
-                "Or sign in with Google",
-                style: GoogleFonts.montserrat(color: Colors.grey),
-              ),
+          
               const SizedBox(
                 height: 10,
               ),
-              SizedBox(
-                width: 300,
-                height: 40,
-                child: SignInButton(
-                  Buttons.Google,
-                  text: "Google",
-                  onPressed: () {},
-                ),
-              ),
+             
               //TextButton(onPressed: (){
               //Navigator.pop(context);
               //}, child: const Text('back'))

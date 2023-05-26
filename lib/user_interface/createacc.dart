@@ -1,3 +1,4 @@
+import 'package:auto_focus/company_interface/login.dart';
 import 'package:auto_focus/services/auth_services.dart';
 import 'package:auto_focus/user_interface/bottomnav.dart';
 import 'package:auto_focus/user_interface/login.dart';
@@ -18,17 +19,24 @@ class Screencreateaccount1 extends StatefulWidget {
 }
 
 class _Screencreateaccount1State extends State<Screencreateaccount1> {
+
+  _Screencreateaccount1State()
+  {
+    valuechoose=selectList[0];
+  }
   final _emailcontroller = TextEditingController();
   final _passwordcontroller2 = TextEditingController();
   final _passwordcontroller = TextEditingController();
   final _namecontroller=TextEditingController();
+  List selectList=['USER','PARTNER'];
+    String? valuechoose;
 
   _signup() async {
     String email = _emailcontroller.text.trim();
     String password = _passwordcontroller.text.trim();
     String password2 = _passwordcontroller2.text.trim();
     String name=_namecontroller.text.trim();
-
+    String role=valuechoose.toString();
     //check if any fields are empty
 
     if (email.isEmpty || password.isEmpty || password2.isEmpty||name.isEmpty) {
@@ -47,7 +55,7 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
 
       if (password == password2) {
         String res =
-            await AuthServices.signup(email: email, password: password,name: name);
+            await AuthServices.signup(email: email, password: password,name: name,role: role);
         if (res != "success") {
           print(res);
           return;
@@ -56,7 +64,7 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
             context,
             PageTransition(
                 type: PageTransitionType.rightToLeftWithFade,
-                child: const Bottomnav()));
+                child:  LoginScreen()));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             duration: const Duration(seconds: 3),
@@ -74,6 +82,7 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -180,22 +189,24 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
                       ))),
 
               const SizedBox(height: 20),
-              Text(
-                'or continue with',
-                style: GoogleFonts.montserrat(color: Colors.white),
-              ),
+             
               const SizedBox(height: 20),
-
-              SizedBox(
-                width: 300,
-                height: 40,
-                child: SignInButton(
-                  Buttons.Google,
-                  text: "Google",
-                  onPressed: () {},
-                ),
-              ),
-              const SizedBox(height: 20),
+              Container(height: 60,width: 150,
+                child: DropdownButtonFormField(decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),  fillColor: Colors.white,filled: true,hintText: 'Select'),
+                  value: valuechoose,
+                  onTap: () {},
+                  items: selectList
+                      .map((e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(e),
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      valuechoose = value as String;
+                    });
+                  }),
+              )
 
               //SizedBox(width: double.infinity,height:50,
               //child: Row(mainAxisAlignment: MainAxisAlignment.center,    children: [

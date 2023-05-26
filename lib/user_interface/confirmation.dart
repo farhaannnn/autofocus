@@ -21,22 +21,31 @@ class _bookingState extends State<booking> {
   bool _ispressed2 = false;
   bool _ispressed3 = false;
   //int flag=0;
+
+  storedetails() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({
+      'date': FieldValue.arrayUnion([storeddate]),
+      'time': FieldValue.arrayUnion([time])
+    });
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getaddress();
   }
 
   DateTime _date = DateTime.now();
-  //
-
   Future<DateTime?> showDatePickerWithoutTime(BuildContext context) async {
     final DateTime? selectedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2100),
+      
     );
 
     if (selectedDate != null) {
@@ -51,6 +60,10 @@ class _bookingState extends State<booking> {
   String location = "";
   String address = "";
 
+  String storeddate = "";
+  String time = "";
+  String servicetype = "ac service";
+
   getaddress() async {
     DocumentSnapshot snap = await FirebaseFirestore.instance
         .collection('users')
@@ -63,10 +76,8 @@ class _bookingState extends State<booking> {
 
   @override
   Widget build(BuildContext context) {
-    int flag=0;
-    if(location==null)
-    {
-      location="Please update address in My Profile";
+    if (location == null) {
+      location = "Please update address in My Profile";
     }
     return SafeArea(
       child: Scaffold(
@@ -98,13 +109,13 @@ class _bookingState extends State<booking> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(location,
-                          
-                          style: GoogleFonts.raleway(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17,
-                              color: Colors.black),
-                          ),
+                      child: Text(
+                        location,
+                        style: GoogleFonts.raleway(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                            color: Colors.black),
+                      ),
                     ),
                   ],
                 ),
@@ -134,6 +145,7 @@ class _bookingState extends State<booking> {
                   setState(() {
                     _currtext = selectedDate.toString();
                     _currtext = _currtext.substring(0, 10);
+                    storeddate = _currtext;
                   });
                 },
                 color: Colors.red,
@@ -180,61 +192,72 @@ class _bookingState extends State<booking> {
               const SizedBox(
                 height: 17,
               ),
-              Row(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      if(flag==0)
-                      {
-                      setState(() {
-                        _ispressed = !_ispressed;
-                        flag=1;
-                      });}
-                      else{
+              SingleChildScrollView(scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
                         setState(() {
-                          flag=0;
+                          _ispressed = !_ispressed;
+                          time = "10-11AM";
                         });
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: _ispressed ? Colors.red : Colors.white,
-                        minimumSize: const Size(130, 40)),
-                    child: Text(
-                      "10-11AM",
-                      style: GoogleFonts.montserrat(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 15),
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: _ispressed ? Colors.red : Colors.white,
+                          minimumSize: const Size(120, 40)),
+                      child: Text(
+                        "10-11AM",
+                        style: GoogleFonts.montserrat(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15),
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 40,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {if(flag==0)
-                    {
-                      setState(() {
-                        _ispressed1 = !_ispressed1;
-                      });}
-                      else{
+                    const SizedBox(
+                      width: 40,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
                         setState(() {
-                          flag=0;
+                          _ispressed1 = !_ispressed1;
+                          time = "11-12PM";
                         });
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: _ispressed1 ? Colors.red : Colors.white,
-                      minimumSize: const Size(130, 40),
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _ispressed1 ? Colors.red : Colors.white,
+                        minimumSize: const Size(120, 40),
+                      ),
+                      child: Text(
+                        "11-12PM",
+                        style: GoogleFonts.montserrat(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15),
+                      ),
                     ),
-                    child: Text(
-                      "11-12PM",
-                      style: GoogleFonts.montserrat(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 15),
+                    const SizedBox(
+                      width: 40,
                     ),
-                  )
-                ],
+                      ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _ispressed = !_ispressed;
+                          time = "12-1PM";
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: _ispressed ? Colors.red : Colors.white,
+                          minimumSize: const Size(120, 40)),
+                      child: Text(
+                        "12-1PM",
+                        style: GoogleFonts.montserrat(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15),
+                      ),
+                    )
+                  ],
+                ),
               ),
               const Divider(
                 indent: 4,
@@ -263,48 +286,74 @@ class _bookingState extends State<booking> {
               const SizedBox(
                 height: 17,
               ),
-              Row(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _ispressed2 = !_ispressed2;
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            _ispressed2 ? Colors.red : Colors.white,
-                        minimumSize: const Size(130, 40)),
-                    child: Text(
-                      "2-3PM",
-                      style: GoogleFonts.montserrat(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 15),
+              SingleChildScrollView(scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _ispressed2 = !_ispressed2;
+                          time = "2-3PM";
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              _ispressed2 ? Colors.red : Colors.white,
+                          minimumSize: const Size(120, 40)),
+                      child: Text(
+                        "2-3PM",
+                        style: GoogleFonts.montserrat(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15),
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 40,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _ispressed3 = !_ispressed3;
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: _ispressed3 ? Colors.red : Colors.white,
-                      minimumSize: const Size(130, 40),
+                    const SizedBox(
+                      width: 40,
                     ),
-                    child: Text(
-                      "3-4PM",
-                      style: GoogleFonts.montserrat(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 15),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _ispressed3 = !_ispressed3;
+                          time = "3-4PM";
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _ispressed3 ? Colors.red : Colors.white,
+                        minimumSize: const Size(120, 40),
+                      ),
+                      child: Text(
+                        "3-4PM",
+                        style: GoogleFonts.montserrat(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15),
+                      ),
                     ),
-                  )
-                ],
+                    const SizedBox(
+                      width: 40,
+                    ),
+                      ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _ispressed2 = !_ispressed2;
+                          time = "4-5PM";
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              _ispressed2 ? Colors.red : Colors.white,
+                          minimumSize: const Size(120, 40)),
+                      child: Text(
+                        "4-5PM",
+                        style: GoogleFonts.montserrat(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15),
+                      ),
+                    )
+                  ],
+                ),
               ),
               const Divider(
                 indent: 4,
@@ -326,6 +375,7 @@ class _bookingState extends State<booking> {
                   alignment: Alignment.bottomRight,
                   child: ElevatedButton(
                     onPressed: () {
+                      storedetails();
                       Navigator.pushReplacement(
                           context,
                           PageTransition(

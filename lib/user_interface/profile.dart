@@ -22,22 +22,16 @@ class _ProfilescreenState extends State<Profilescreen> {
   bool btn = false;
   String _txt = "Edit Profile";
   @override
+
   void initState() {
     // TODO: implement initState
     super.initState();
     getname();
   }
 
+
   getname() async {
-    // await FirebaseFirestore.instance
-    //     .collection('users')
-    //     .doc(_firebaseauth.currentUser!.uid)
-    //     .get()
-    //     .then((DocumentSnapshot documentSnapshot) {
-    //    final data=documentSnapshot.data() as Map<String,dynamic>;
-    //    _namecon=data['name'];
-    //    _emailcon=data['email'];
-    // });
+
     DocumentSnapshot snap = await FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -50,8 +44,8 @@ class _ProfilescreenState extends State<Profilescreen> {
     });
   }
 
-  storedetails() {
-    FirebaseFirestore.instance
+  storedetails() async {
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .update({
