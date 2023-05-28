@@ -1,4 +1,7 @@
+import 'package:auto_focus/company_interface/home.dart';
 import 'package:auto_focus/company_interface/signup.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -9,7 +12,15 @@ class Detailscreen extends StatelessWidget {
   Detailscreen({super.key});
   var grey = 0xFF9D9D9D;
   var yellow = 0xFFFED604;
+  final _namecontroller=TextEditingController();
+  final _cmpnyname=TextEditingController();
+  final _addresscon=TextEditingController();
 
+storedetails()async
+{
+  await FirebaseFirestore.instance.collection('partners').doc(FirebaseAuth.instance.currentUser!.uid).update({'name':_namecontroller.text,
+  'companyname':_cmpnyname.text,'address':_addresscon.text});
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +47,7 @@ class Detailscreen extends StatelessWidget {
             //enter name
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
-              child: TextFormField(
+              child: TextFormField(controller: _namecontroller,
                 decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.person),
                     prefixIconColor: Colors.black,
@@ -58,7 +69,7 @@ class Detailscreen extends StatelessWidget {
             //enter organization name
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
-              child: TextFormField(
+              child: TextFormField(controller: _cmpnyname,
                 decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.apartment),
                     prefixIconColor: Colors.black,
@@ -80,7 +91,7 @@ class Detailscreen extends StatelessWidget {
             //enter address
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
-              child: TextFormField(
+              child: TextFormField(controller: _addresscon,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.maps_home_work),
                   prefixIconColor: Colors.black,
@@ -135,10 +146,11 @@ class Detailscreen extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
                   onPressed: () {
+                    storedetails();
                     Navigator.pushReplacement(
                         context,
                         PageTransition(
-                            child: const Signupscreen(),
+                            child: const Homescreen1(),
                             type: PageTransitionType.rightToLeftWithFade));
                   },
                   child: Text(
