@@ -12,6 +12,7 @@ class AuthServices {
       {required String email,
       required String password,
       required String name,
+      required int value,
       String? mobile,
       String? address,
       List<String>? cars,List<String>?servicetype,List<String>?date,List<String>?time,String?role}) async {
@@ -33,10 +34,20 @@ class AuthServices {
           time:[],
           role: role
           );
+          if(value==1)
+          {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(_cred.user?.uid)
           .set(user.toJson());
+          }
+          else if(value==0)
+          {
+            await FirebaseFirestore.instance
+          .collection('partners')
+          .doc(_cred.user?.uid)
+          .set(user.toJson());
+          }
 
       //     {
       //   'name': name,

@@ -19,6 +19,7 @@ class Screencreateaccount1 extends StatefulWidget {
 }
 
 class _Screencreateaccount1State extends State<Screencreateaccount1> {
+  int flag=1;
 
   _Screencreateaccount1State()
   {
@@ -37,6 +38,7 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
     String password2 = _passwordcontroller2.text.trim();
     String name=_namecontroller.text.trim();
     String role=valuechoose.toString();
+    
     //check if any fields are empty
 
     if (email.isEmpty || password.isEmpty || password2.isEmpty||name.isEmpty) {
@@ -55,7 +57,7 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
 
       if (password == password2) {
         String res =
-            await AuthServices.signup(email: email, password: password,name: name,role: role);
+            await AuthServices.signup(email: email, password: password,name: name,role: role,value:flag);
         if (res != "success") {
           print(res);
           return;
@@ -205,6 +207,19 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
                     setState(() {
                       valuechoose = value as String;
                     });
+                    if(value=="USER")
+                    {
+        
+                        flag=1;
+                      
+                    }
+                    else
+                    {
+                      setState(() {
+                        flag=0;
+                      });
+                  
+                    }
                   }),
               )
 
