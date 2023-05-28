@@ -209,16 +209,11 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
                     });
                     if(value=="USER")
                     {
-        
                         flag=1;
-                      
                     }
                     else
                     {
-                      setState(() {
                         flag=0;
-                      });
-                  
                     }
                   }),
               )

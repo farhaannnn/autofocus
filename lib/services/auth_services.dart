@@ -4,9 +4,8 @@ import 'package:auto_focus/models/user_model.dart' as model;
 
 class AuthServices {
   static final _firebaseAuth = FirebaseAuth.instance;
-  static final firestore=FirebaseFirestore.instance;
-  static final ROLES=['USER','PARTNER'];
-
+  static final firestore = FirebaseFirestore.instance;
+  static final ROLES = ['USER', 'PARTNER'];
 
   static Future<String> signup(
       {required String email,
@@ -15,7 +14,13 @@ class AuthServices {
       required int value,
       String? mobile,
       String? address,
-      List<String>? cars,List<String>?servicetype,List<String>?date,List<String>?time,String?role}) async {
+      List<String>? cars,
+      List<String>? servicetype,
+      List<String>? date,
+      List<String>? time,
+      String? role,
+      String? companyname,
+      List<String>? services}) async {
     String res = "Something went wrong";
 
     try {
@@ -29,25 +34,27 @@ class AuthServices {
           mobile: mobile,
           uid: _cred.user?.uid,
           cars: [],
-          servicetype: [],
-          date: [],
-          time:[],
-          role: role
-          );
-          if(value==1)
-          {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(_cred.user?.uid)
-          .set(user.toJson());
-          }
-          else if(value==0)
-          {
-            await FirebaseFirestore.instance
-          .collection('partners')
-          .doc(_cred.user?.uid)
-          .set(user.toJson());
-          }
+          role: role);
+      model.Partner partner = model.Partner(
+          name: name,
+          address: address,
+          email: email,
+          mobile: mobile,
+          companyname: companyname,
+          role: role,
+          services: services,
+          uid: FirebaseAuth.instance.currentUser!.uid);
+      if (value == 1) {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(_cred.user?.uid)
+            .set(user.toJson());
+      } else if (value == 0) {
+        await FirebaseFirestore.instance
+            .collection('partners')
+            .doc(_cred.user?.uid)
+            .set(partner.toJson());
+      }
 
       //     {
       //   'name': name,
@@ -71,30 +78,30 @@ class AuthServices {
       // ignore: no_leading_underscores_for_local_identifiers, unused_local_variable
       UserCredential _cred = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-          final role=await getrole();
-          
+      final role = await getrole();
+
       res = role;
-      
     } catch (e) {
       res = e.toString();
     }
     return res;
   }
 
-  static getrole()async{
-    String res="something went wrong";
-    try{
-      String uid=_firebaseAuth.currentUser!.uid;
-      final data=await firestore.collection('users').doc(uid).get();
-      if(data.data()!=null)
-      {
-        res=data.data()!['role'];
+  static getrole() async {
+    String res = "something went wrong";
+    try {
+      String uid = _firebaseAuth.currentUser!.uid;
+      final data = await firestore.collection('partners').doc(uid).get();
+      final data1=await firestore.collection('users').doc(uid).get();
+      if (data.data() != null) {
+        res = data.data()!['role'];
       }
-    }catch(e)
-    {
-      res=e.toString();
+      else{
+        res=data1.data()!['role'];
+      }
+    } catch (e) {
+      res = e.toString();
       print(res);
-
     }
     return res;
   }
