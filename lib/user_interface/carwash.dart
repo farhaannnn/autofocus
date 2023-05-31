@@ -141,7 +141,7 @@ class CarwashScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, PageTransition(child: booking(), type: PageTransitionType.rightToLeftWithFade));
+                    Navigator.push(context, PageTransition(child: booking(id: 4,), type: PageTransitionType.rightToLeftWithFade));
                   },
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.red),

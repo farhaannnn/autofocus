@@ -266,12 +266,13 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
                             borderRadius: BorderRadius.circular(20)),
                         backgroundColor: Colors.red),
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          PageTransition(
-                              child: LoginScreen(),
-                              type: PageTransitionType.leftToRight),
-                          (route) => false);
+                      FirebaseAuth.instance.signOut();
+                      // Navigator.pushAndRemoveUntil(
+                      //     context,
+                      //     PageTransition(
+                      //         child: LoginScreen(),
+                      //         type: PageTransitionType.leftToRight),
+                      //     (route) => false);
                     },
                     child: Text(
                       'Logout',

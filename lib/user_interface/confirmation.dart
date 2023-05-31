@@ -1,36 +1,69 @@
-import 'package:auto_focus/user_interface/bookings.dart';
 import 'package:auto_focus/user_interface/bottomnav.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 class booking extends StatefulWidget {
-  const booking({super.key});
+  final int id;
+  //const booking({super.key});
+  booking({required this.id});
 
   @override
   State<booking> createState() => _bookingState();
 }
 
 class _bookingState extends State<booking> {
-  bool _ispressed = false;
-  bool _ispressed1 = false;
-  bool _ispressed2 = false;
-  bool _ispressed3 = false;
-  //int flag=0;
-
-  storedetails() async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .update({
-      'date': FieldValue.arrayUnion([storeddate]),
-      'time': FieldValue.arrayUnion([time])
+  int selectedbuttonindex=0;
+  onbuttonpressed(int buttonindex)
+  {
+    setState(() {
+     
+      selectedbuttonindex=buttonindex;
     });
   }
+  //int flag=0;
+  storecollection(String servicedate) async {
+    if (widget.id == 1) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('ac_service')
+          .doc(servicedate)
+          .set({'status': "pending"});
+    } else if (widget.id == 2) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('oil_service')
+          .doc(servicedate)
+          .set({'status': "pending"});
+    } else if (widget.id == 3) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('wheel_service')
+          .doc(servicedate)
+          .set({'status': "pending"});
+    } else if (widget.id == 4) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('wash_service')
+          .doc(servicedate)
+          .set({'status': "pending"});
+    }
+  }
+  // storedetails() async {
+  //   await FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc(FirebaseAuth.instance.currentUser!.uid)
+  //       .update({
+  //     'date': FieldValue.arrayUnion([storeddate]),
+  //     'time': FieldValue.arrayUnion([time])
+  //   });
+  // }
 
   @override
   void initState() {
@@ -45,7 +78,6 @@ class _bookingState extends State<booking> {
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2100),
-      
     );
 
     if (selectedDate != null) {
@@ -192,23 +224,26 @@ class _bookingState extends State<booking> {
               const SizedBox(
                 height: 17,
               ),
-              SingleChildScrollView(scrollDirection: Axis.horizontal,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () {onbuttonpressed(1);
+
                         setState(() {
-                          _ispressed = !_ispressed;
+                          
                           time = "10-11AM";
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: _ispressed ? Colors.red : Colors.white,
+                          backgroundColor:
+                              selectedbuttonindex==1 ? Colors.red : Colors.white,
                           minimumSize: const Size(120, 40)),
                       child: Text(
                         "10-11AM",
                         style: GoogleFonts.montserrat(
-                            color: Colors.black,
+                            color: selectedbuttonindex==1 ? Colors.white : Colors.black,
                             fontWeight: FontWeight.w700,
                             fontSize: 15),
                       ),
@@ -217,20 +252,21 @@ class _bookingState extends State<booking> {
                       width: 40,
                     ),
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () {onbuttonpressed(2);
                         setState(() {
-                          _ispressed1 = !_ispressed1;
+                          
                           time = "11-12PM";
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: _ispressed1 ? Colors.red : Colors.white,
+                        backgroundColor:
+                            selectedbuttonindex==2 ? Colors.red : Colors.white,
                         minimumSize: const Size(120, 40),
                       ),
                       child: Text(
                         "11-12PM",
                         style: GoogleFonts.montserrat(
-                            color: Colors.black,
+                            color: selectedbuttonindex==2 ? Colors.white : Colors.black,
                             fontWeight: FontWeight.w700,
                             fontSize: 15),
                       ),
@@ -238,20 +274,21 @@ class _bookingState extends State<booking> {
                     const SizedBox(
                       width: 40,
                     ),
-                      ElevatedButton(
-                      onPressed: () {
+                    ElevatedButton(
+                      onPressed: () {onbuttonpressed(3);
                         setState(() {
-                          _ispressed = !_ispressed;
+                          
                           time = "12-1PM";
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: _ispressed ? Colors.red : Colors.white,
+                          backgroundColor:
+                              selectedbuttonindex==3 ? Colors.red : Colors.white,
                           minimumSize: const Size(120, 40)),
                       child: Text(
                         "12-1PM",
                         style: GoogleFonts.montserrat(
-                            color: Colors.black,
+                            color: selectedbuttonindex==3 ? Colors.white : Colors.black,
                             fontWeight: FontWeight.w700,
                             fontSize: 15),
                       ),
@@ -286,24 +323,25 @@ class _bookingState extends State<booking> {
               const SizedBox(
                 height: 17,
               ),
-              SingleChildScrollView(scrollDirection: Axis.horizontal,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () {onbuttonpressed(4);
                         setState(() {
-                          _ispressed2 = !_ispressed2;
+                          
                           time = "2-3PM";
                         });
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor:
-                              _ispressed2 ? Colors.red : Colors.white,
+                              selectedbuttonindex==4 ? Colors.red : Colors.white,
                           minimumSize: const Size(120, 40)),
                       child: Text(
                         "2-3PM",
                         style: GoogleFonts.montserrat(
-                            color: Colors.black,
+                            color: selectedbuttonindex==4 ? Colors.white : Colors.black,
                             fontWeight: FontWeight.w700,
                             fontSize: 15),
                       ),
@@ -312,20 +350,21 @@ class _bookingState extends State<booking> {
                       width: 40,
                     ),
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () {onbuttonpressed(5);
                         setState(() {
-                          _ispressed3 = !_ispressed3;
+                          
                           time = "3-4PM";
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: _ispressed3 ? Colors.red : Colors.white,
+                        backgroundColor:
+                            selectedbuttonindex==5 ? Colors.red : Colors.white,
                         minimumSize: const Size(120, 40),
                       ),
                       child: Text(
                         "3-4PM",
                         style: GoogleFonts.montserrat(
-                            color: Colors.black,
+                            color: selectedbuttonindex==5 ? Colors.white : Colors.black,
                             fontWeight: FontWeight.w700,
                             fontSize: 15),
                       ),
@@ -333,21 +372,21 @@ class _bookingState extends State<booking> {
                     const SizedBox(
                       width: 40,
                     ),
-                      ElevatedButton(
-                      onPressed: () {
+                    ElevatedButton(
+                      onPressed: () {onbuttonpressed(6);
                         setState(() {
-                          _ispressed2 = !_ispressed2;
+                         
                           time = "4-5PM";
                         });
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor:
-                              _ispressed2 ? Colors.red : Colors.white,
+                              selectedbuttonindex==6 ? Colors.red : Colors.white,
                           minimumSize: const Size(120, 40)),
                       child: Text(
                         "4-5PM",
                         style: GoogleFonts.montserrat(
-                            color: Colors.black,
+                            color: selectedbuttonindex==6 ? Colors.white : Colors.black,
                             fontWeight: FontWeight.w700,
                             fontSize: 15),
                       ),
@@ -375,7 +414,9 @@ class _bookingState extends State<booking> {
                   alignment: Alignment.bottomRight,
                   child: ElevatedButton(
                     onPressed: () {
-                      storedetails();
+                      String servicedate = storeddate + "," + time;
+                      //storedetails();
+                      storecollection(servicedate);
                       Navigator.pushReplacement(
                           context,
                           PageTransition(
