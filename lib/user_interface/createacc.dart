@@ -62,7 +62,7 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
           print(res);
           return;
         }
-        Navigator.pushReplacement(
+        Navigator.push(
             context,
             PageTransition(
                 type: PageTransitionType.rightToLeftWithFade,

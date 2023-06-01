@@ -1,4 +1,5 @@
 
+import 'package:auto_focus/services/auth_services.dart';
 import 'package:auto_focus/user_interface/bottomnav.dart';
 import 'package:auto_focus/user_interface/home.dart';
 import 'package:auto_focus/user_interface/login.dart';
@@ -20,10 +21,13 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
+  
   MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(debugShowCheckedModeBanner: false,
+    return GetMaterialApp(
+      
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.red),
       home:  StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),

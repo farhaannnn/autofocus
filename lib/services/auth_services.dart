@@ -1,6 +1,8 @@
+import 'package:auto_focus/company_interface/details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:auto_focus/models/user_model.dart' as model;
+import 'package:get/get.dart';
 
 class AuthServices {
   static final _firebaseAuth = FirebaseAuth.instance;
@@ -54,6 +56,7 @@ class AuthServices {
             .collection('partners')
             .doc(_cred.user?.uid)
             .set(partner.toJson());
+            
       }
 
       //     {

@@ -13,47 +13,47 @@ class Bookingscreen extends StatefulWidget {
 }
 
 class _BookingscreenState extends State<Bookingscreen> {
-  fetchdetails()
-  {
-    const Text('BOOKINGS',style: TextStyle(color: Colors.white),);
-    return StreamBuilder<DocumentSnapshot>(
-      stream:  FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
-         if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            }
-             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            }
-            if (!snapshot.hasData || !snapshot.data!.exists) {
-              return const Text('No data');
-            }
-            final documents = snapshot.data!;
-            final list1=documents['date'] as List<dynamic>;
-            final list2=documents['time'] as List<dynamic>;
-            return ListView.builder( itemCount: list1.length,itemBuilder: (context,index){
-              final item1=list1[index];
-              final item2=list2[index];
+  // fetchdetails()
+  // {
+  //   const Text('BOOKINGS',style: TextStyle(color: Colors.white),);
+  //   return StreamBuilder<DocumentSnapshot>(
+  //     stream:  FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
+  //     builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
+  //        if (snapshot.hasError) {
+  //             return Text('Error: ${snapshot.error}');
+  //           }
+  //            if (snapshot.connectionState == ConnectionState.waiting) {
+  //             return const CircularProgressIndicator();
+  //           }
+  //           if (!snapshot.hasData || !snapshot.data!.exists) {
+  //             return const Text('No data');
+  //           }
+  //           final documents = snapshot.data!;
+  //           final list1=documents['date'] as List<dynamic>;
+  //           final list2=documents['time'] as List<dynamic>;
+  //           return ListView.builder( itemCount: list1.length,itemBuilder: (context,index){
+  //             final item1=list1[index];
+  //             final item2=list2[index];
 
-              return Padding(
-                padding: const EdgeInsets.all(20),
-                child: Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),  color: Colors.red[50],  border: Border.all(color: Colors.white,width: 2)),
-                          width: double.infinity,
-                          height: 100,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: Column(
-                              children: [
-                                Text( "Date : "+item1.toString(),textAlign: TextAlign.left,  style: GoogleFonts.raleway(color: Colors.black, fontSize: 18,fontWeight: FontWeight.bold),),
-                                Text("Time : "+item2.toString(),textAlign: TextAlign.left,style: GoogleFonts.raleway(color: Colors.black, fontSize: 18,fontWeight: FontWeight.bold),)
-                              ],
-                            ),
-                          ),),
-              );
-            });
-      },
-    );
-  }
+  //             return Padding(
+  //               padding: const EdgeInsets.all(20),
+  //               child: Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),  color: Colors.red[50],  border: Border.all(color: Colors.white,width: 2)),
+  //                         width: double.infinity,
+  //                         height: 100,
+  //                         child: Padding(
+  //                           padding: const EdgeInsets.only(top: 20),
+  //                           child: Column(
+  //                             children: [
+  //                               Text( "Date : "+item1.toString(),textAlign: TextAlign.left,  style: GoogleFonts.raleway(color: Colors.black, fontSize: 18,fontWeight: FontWeight.bold),),
+  //                               Text("Time : "+item2.toString(),textAlign: TextAlign.left,style: GoogleFonts.raleway(color: Colors.black, fontSize: 18,fontWeight: FontWeight.bold),)
+  //                             ],
+  //                           ),
+  //                         ),),
+  //             );
+  //           });
+  //     },
+  //   );
+  // }
   List items = ['ac-service', 'oil-service', 'wheel-alignment', 'car-wash'];
 
 //    fetchdetails()
@@ -97,7 +97,7 @@ class _BookingscreenState extends State<Bookingscreen> {
     //fetchdata();
     super.initState();
     valuechoose = items[0];
-    //fetchdetails();
+    fetchdetails(1);
   }
 
   // fetchdetails(int id) async {
@@ -226,27 +226,48 @@ class _BookingscreenState extends State<Bookingscreen> {
 //   return []; // Return an empty list if the condition is not met
 // }
   String? valuechoose;
+  String? date, time;
+  List<String> l1 = [];
+  List<String> l2 = [];
+  List<String> l3 = [];
+  fetchdetails(int id) async {
+    String collection = 'ac_service';
+    l1.clear();
+    l2.clear();
+    l3.clear();
+    print('hello');
+    if (id == 1) {
+      collection = 'ac_service';
+    } else if (id == 2) {
+      collection = 'oil_service';
+    } else if (id == 3) {
+      collection = 'wheel_service';
+    } else if (id == 4) {
+      collection = 'wash_service';
+    }
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection(collection)
+        .get();
+    final List<DocumentSnapshot> list1 = querySnapshot.docs;
+    for (var document in list1) {
+      setState(() {
+        date = document.id.substring(0, 10);
+        time = document.id.substring(11);
+        l1.add(date!);
+        l2.add(time!);
+        l3.add((document.data() as Map<String, dynamic>)['status']);
+      });
+    }
 
-  // fetchdetails() async {
-  //   print('hello');
-  //   QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-  //       .collection('users')
-  //       .doc(FirebaseAuth.instance.currentUser!.uid)
-  //       .collection('ac_service')
-  //       .get();
-  //       final List<DocumentSnapshot> list1=querySnapshot.docs;
-  //       print(list1.length);
-  //       for(var document in list1)
-  //       {
-  //         String date=document.id.substring(0,10);
-  //         String time=document.id.substring(11);
-  //         //Map<String,dynamic> data=document.data as Map<String,dynamic>;
-  //         print(date);
-  //         print(time);
-  //         //print(data['status']);
-  //         Container(height: 100,width: double.infinity, color: Colors.white,  child: Column(children: [Text(date),Text(time)],),);
-  //       }
-  // }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -255,54 +276,79 @@ class _BookingscreenState extends State<Bookingscreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Container(
-            width: 180,
-            child: Column(
-              children: [
-                Text(
-                  'Select Service',
-                  style: GoogleFonts.montserrat(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  height: 60,
-                  child: DropdownButtonFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        fillColor: Colors.white,
-                        filled: true,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            //crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Select Service',
+                style: GoogleFonts.montserrat(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                // width: 160,
+                // height: 60,
+                child: DropdownButtonFormField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                    value: valuechoose,
+                    onTap: () {},
+                    items: items
+                        .map((e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(e),
+                            ))
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        valuechoose = value as String;
+                      });
+                      if (valuechoose == 'ac-service') {
+                        fetchdetails(1);
+                      } else if (valuechoose == 'oil-service') {
+                        fetchdetails(2);
+                      } else if (valuechoose == 'wheel-alignment') {
+                        fetchdetails(3);
+                      } else if (valuechoose == 'car-wash') {
+                        fetchdetails(4);
+                      }
+                    }),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemBuilder: ((context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: 80,
+                        color: Colors.white,
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Date :${l1[index]}',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            Text('Time :${l2[index]}'),
+                            Text('Status :${l3[index]}')
+                          ],
+                        ),
                       ),
-                      value: valuechoose,
-                      onTap: () {},
-                      items: items
-                          .map((e) => DropdownMenuItem(
-                                value: e,
-                                child: Text(e),
-                              ))
-                          .toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          valuechoose = value as String;
-                        });
-                        if (valuechoose == 'ac-service') {
-                          fetchdetails();
-                        } else if (valuechoose == 'oil-service') {
-                          fetchdetails();
-                        } else if (valuechoose == 'wheel-alignment') {
-                          fetchdetails();
-                        } else if (valuechoose == 'car-wash') {
-                          fetchdetails();
-                        }
-                      }),
+                    );
+                  }),
+                  itemCount: l1.length,
                 ),
-              ],
-            ),
+              )
+            ],
           ),
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:auto_focus/company_interface/account.dart';
 import 'package:auto_focus/company_interface/details.dart';
 import 'package:auto_focus/company_interface/home.dart';
 import 'package:auto_focus/company_interface/start.dart';
@@ -44,19 +45,15 @@ class _LoginScreenState extends State<LoginScreen> {
       ));
       return;
     }
-    // Navigator.pushReplacement(
-    //     context,
-    //     PageTransition(
-    //         type: PageTransitionType.rightToLeftWithFade,
-    //         child: const Bottomnav()));
       Widget? page;
       switch(role.toUpperCase())
       {
+        
         case 'USER':
         page=const Bottomnav();
         break;
         case 'PARTNER':
-        page= Detailscreen();
+        page= const Homescreen1();
         break;
         default:
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(role)));
