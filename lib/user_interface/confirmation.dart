@@ -15,15 +15,13 @@ class booking extends StatefulWidget {
 }
 
 class _bookingState extends State<booking> {
-  int selectedbuttonindex=0;
-  onbuttonpressed(int buttonindex)
-  {
+  int selectedbuttonindex = 0;
+  onbuttonpressed(int buttonindex) {
     setState(() {
-     
-      selectedbuttonindex=buttonindex;
+      selectedbuttonindex = buttonindex;
     });
   }
-  //int flag=0;
+
   storecollection(String servicedate) async {
     if (widget.id == 1) {
       await FirebaseFirestore.instance
@@ -55,6 +53,7 @@ class _bookingState extends State<booking> {
           .set({'status': "pending"});
     }
   }
+
   // storedetails() async {
   //   await FirebaseFirestore.instance
   //       .collection('users')
@@ -64,12 +63,35 @@ class _bookingState extends State<booking> {
   //     'time': FieldValue.arrayUnion([time])
   //   });
   // }
+  getpartners() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('partners').get();
+    for (var doc in querySnapshot.docs) {
+      String data = (doc.data() as Map<String, dynamic>)['companyname'];
+      partners.add(data);
+    }
+  }
 
+  searchpartid() async {
+    final search = await FirebaseFirestore.instance
+        .collection('partners')
+        .where('companyname', isEqualTo: valuechoose);
+    print(search);
+  }
+
+  String? valuechoose;
+  List<String> partners = [];
   @override
   void initState() {
     super.initState();
     getaddress();
+    getpartners();
   }
+
+  // storepartner() async {
+  //   await FirebaseFirestore.instance.collection('partners')
+  //   .doc
+  // }
 
   DateTime _date = DateTime.now();
   Future<DateTime?> showDatePickerWithoutTime(BuildContext context) async {
@@ -122,35 +144,61 @@ class _bookingState extends State<booking> {
               const SizedBox(height: 19),
 
               //LOCATION FOR PICKUP CONTAINER
+              // Container(
+              //   height: 100,
+              //   width: 500,
+              //   decoration: BoxDecoration(
+              //     color: const Color.fromARGB(255, 238, 224, 224),
+              //     borderRadius: BorderRadius.circular(15),
+              //   ),
+              //   child: Column(
+              //     children: [
+              //       Text('Location for pickup',
+              //           style: GoogleFonts.raleway(
+              //               fontWeight: FontWeight.bold,
+              //               fontSize: 17,
+              //               color: Colors.black)),
+              //       const SizedBox(
+              //         height: 15,
+              //       ),
+              //       Padding(
+              //         padding: const EdgeInsets.all(8.0),
+              //         child: Text(
+              //           location,
+              //           style: GoogleFonts.raleway(
+              //               fontWeight: FontWeight.bold,
+              //               fontSize: 17,
+              //               color: Colors.black),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Container(
-                height: 100,
-                width: 500,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 238, 224, 224),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Column(
-                  children: [
-                    Text('Location for pickup',
-                        style: GoogleFonts.raleway(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                            color: Colors.black)),
-                    const SizedBox(
-                      height: 15,
+                // width: 160,
+                // height: 60,
+                child: DropdownButtonFormField(
+                    hint: const Text("Choose Company"),
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      fillColor: Colors.white,
+                      filled: true,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        location,
-                        style: GoogleFonts.raleway(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                            color: Colors.black),
-                      ),
-                    ),
-                  ],
-                ),
+                    value: valuechoose,
+                    onTap: () {},
+                    items: partners
+                        .map((e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(e),
+                            ))
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        valuechoose = value as String;
+                        searchpartid();
+                      });
+                    }),
               ),
 
               const SizedBox(height: 30),
@@ -229,21 +277,24 @@ class _bookingState extends State<booking> {
                 child: Row(
                   children: [
                     ElevatedButton(
-                      onPressed: () {onbuttonpressed(1);
+                      onPressed: () {
+                        onbuttonpressed(1);
 
                         setState(() {
-                          
                           time = "10-11AM";
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              selectedbuttonindex==1 ? Colors.red : Colors.white,
+                          backgroundColor: selectedbuttonindex == 1
+                              ? Colors.red
+                              : Colors.white,
                           minimumSize: const Size(120, 40)),
                       child: Text(
                         "10-11AM",
                         style: GoogleFonts.montserrat(
-                            color: selectedbuttonindex==1 ? Colors.white : Colors.black,
+                            color: selectedbuttonindex == 1
+                                ? Colors.white
+                                : Colors.black,
                             fontWeight: FontWeight.w700,
                             fontSize: 15),
                       ),
@@ -252,21 +303,24 @@ class _bookingState extends State<booking> {
                       width: 40,
                     ),
                     ElevatedButton(
-                      onPressed: () {onbuttonpressed(2);
+                      onPressed: () {
+                        onbuttonpressed(2);
                         setState(() {
-                          
                           time = "11-12PM";
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            selectedbuttonindex==2 ? Colors.red : Colors.white,
+                        backgroundColor: selectedbuttonindex == 2
+                            ? Colors.red
+                            : Colors.white,
                         minimumSize: const Size(120, 40),
                       ),
                       child: Text(
                         "11-12PM",
                         style: GoogleFonts.montserrat(
-                            color: selectedbuttonindex==2 ? Colors.white : Colors.black,
+                            color: selectedbuttonindex == 2
+                                ? Colors.white
+                                : Colors.black,
                             fontWeight: FontWeight.w700,
                             fontSize: 15),
                       ),
@@ -275,20 +329,23 @@ class _bookingState extends State<booking> {
                       width: 40,
                     ),
                     ElevatedButton(
-                      onPressed: () {onbuttonpressed(3);
+                      onPressed: () {
+                        onbuttonpressed(3);
                         setState(() {
-                          
                           time = "12-1PM";
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              selectedbuttonindex==3 ? Colors.red : Colors.white,
+                          backgroundColor: selectedbuttonindex == 3
+                              ? Colors.red
+                              : Colors.white,
                           minimumSize: const Size(120, 40)),
                       child: Text(
                         "12-1PM",
                         style: GoogleFonts.montserrat(
-                            color: selectedbuttonindex==3 ? Colors.white : Colors.black,
+                            color: selectedbuttonindex == 3
+                                ? Colors.white
+                                : Colors.black,
                             fontWeight: FontWeight.w700,
                             fontSize: 15),
                       ),
@@ -328,20 +385,23 @@ class _bookingState extends State<booking> {
                 child: Row(
                   children: [
                     ElevatedButton(
-                      onPressed: () {onbuttonpressed(4);
+                      onPressed: () {
+                        onbuttonpressed(4);
                         setState(() {
-                          
                           time = "2-3PM";
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              selectedbuttonindex==4 ? Colors.red : Colors.white,
+                          backgroundColor: selectedbuttonindex == 4
+                              ? Colors.red
+                              : Colors.white,
                           minimumSize: const Size(120, 40)),
                       child: Text(
                         "2-3PM",
                         style: GoogleFonts.montserrat(
-                            color: selectedbuttonindex==4 ? Colors.white : Colors.black,
+                            color: selectedbuttonindex == 4
+                                ? Colors.white
+                                : Colors.black,
                             fontWeight: FontWeight.w700,
                             fontSize: 15),
                       ),
@@ -350,21 +410,24 @@ class _bookingState extends State<booking> {
                       width: 40,
                     ),
                     ElevatedButton(
-                      onPressed: () {onbuttonpressed(5);
+                      onPressed: () {
+                        onbuttonpressed(5);
                         setState(() {
-                          
                           time = "3-4PM";
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            selectedbuttonindex==5 ? Colors.red : Colors.white,
+                        backgroundColor: selectedbuttonindex == 5
+                            ? Colors.red
+                            : Colors.white,
                         minimumSize: const Size(120, 40),
                       ),
                       child: Text(
                         "3-4PM",
                         style: GoogleFonts.montserrat(
-                            color: selectedbuttonindex==5 ? Colors.white : Colors.black,
+                            color: selectedbuttonindex == 5
+                                ? Colors.white
+                                : Colors.black,
                             fontWeight: FontWeight.w700,
                             fontSize: 15),
                       ),
@@ -373,20 +436,23 @@ class _bookingState extends State<booking> {
                       width: 40,
                     ),
                     ElevatedButton(
-                      onPressed: () {onbuttonpressed(6);
+                      onPressed: () {
+                        onbuttonpressed(6);
                         setState(() {
-                         
                           time = "4-5PM";
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              selectedbuttonindex==6 ? Colors.red : Colors.white,
+                          backgroundColor: selectedbuttonindex == 6
+                              ? Colors.red
+                              : Colors.white,
                           minimumSize: const Size(120, 40)),
                       child: Text(
                         "4-5PM",
                         style: GoogleFonts.montserrat(
-                            color: selectedbuttonindex==6 ? Colors.white : Colors.black,
+                            color: selectedbuttonindex == 6
+                                ? Colors.white
+                                : Colors.black,
                             fontWeight: FontWeight.w700,
                             fontSize: 15),
                       ),
@@ -417,6 +483,7 @@ class _bookingState extends State<booking> {
                       String servicedate = storeddate + "," + time;
                       //storedetails();
                       storecollection(servicedate);
+                      // storepartner();
                       Navigator.pushReplacement(
                           context,
                           PageTransition(
@@ -433,7 +500,7 @@ class _bookingState extends State<booking> {
                       style: GoogleFonts.raleway(
                           fontSize: 15, fontWeight: FontWeight.bold),
                     ),
-                  ))
+                  )),
             ]),
           ),
         ),
