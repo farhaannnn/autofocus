@@ -29,22 +29,23 @@ class MyApp extends StatelessWidget {
       
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.red),
-      home:  StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            if (snapshot.hasData) {
-              return const Bottomnav();
-            } else if (snapshot.hasError) {
-              return const SnackBar(
-                content: Text("Something has gone wrong."),
-              );
-            }
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          }
-          return  LoginScreen();
-        })
+      home: const Splashscreen(),
+      // home:  StreamBuilder(
+      //   stream: FirebaseAuth.instance.authStateChanges(),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.active) {
+      //       if (snapshot.hasData) {
+      //         return const Bottomnav();
+      //       } else if (snapshot.hasError) {
+      //         return const SnackBar(
+      //           content: Text("Something has gone wrong."),
+      //         );
+      //       }
+      //     } else if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return const CircularProgressIndicator();
+      //     }
+      //     return  LoginScreen();
+      //   })
     
     );
   }

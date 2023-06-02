@@ -15,8 +15,8 @@ class Profilescreen extends StatefulWidget {
 class _ProfilescreenState extends State<Profilescreen> {
   final _mobilecon = TextEditingController();
   final _addresscon = TextEditingController();
-  var _emailcon = TextEditingController();
-  var _namecon = TextEditingController();
+  final _emailcon = TextEditingController();
+  final _namecon = TextEditingController();
   
   bool _enabled = false;
   bool btn = false;
@@ -24,7 +24,6 @@ class _ProfilescreenState extends State<Profilescreen> {
   @override
 
   void initState() {
-    // TODO: implement initState
     super.initState();
     getname();
   }
@@ -36,12 +35,11 @@ class _ProfilescreenState extends State<Profilescreen> {
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
-    setState(() {
+
       _emailcon.text = (snap.data() as Map<String, dynamic>)['email'];
       _namecon.text = (snap.data() as Map<String, dynamic>)['name'];
       _addresscon.text = (snap.data() as Map<String, dynamic>)['address'];
       _mobilecon.text = (snap.data() as Map<String, dynamic>)['mobile'];
-    });
   }
 
   storedetails() async {
