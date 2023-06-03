@@ -67,7 +67,7 @@ class _RequestscreenState extends State<Requestscreen> {
         });
   }
 confirmbooking()async{
-  
+
 }
   @override
   Widget build(BuildContext context) {
@@ -152,7 +152,17 @@ confirmbooking()async{
                                           ),
                                         ]),
                                   ),
-                                  const Text('Vehicle Name'),
+                                  Column(
+                                    children: [
+                                      const Text('Vehicle Name'),
+                                      Text(
+                                    (snapshot.data! as dynamic).docs[index]
+                                        ['vehicle'][0],
+                                    style: GoogleFonts.montserrat(
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                    ],
+                                  ),
                                 ],
                               ),
                               Row(

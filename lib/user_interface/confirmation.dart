@@ -79,6 +79,7 @@ storebooking()async
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
+      List vehicle=(snap.data() as Map<String,dynamic>)['cars'];
 
     String name=(snap.data() as Map<String,dynamic>)['name'];        
     if(widget.id==1)
@@ -106,7 +107,8 @@ storebooking()async
         .set({'user-name':name,
         'booked-date':storeddate,
         'time':time,
-        'servicetype':servicetype
+        'servicetype':servicetype,
+        'vehicle':vehicle
         });
 }
   searchpartid() async {
