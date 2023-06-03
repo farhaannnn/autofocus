@@ -21,10 +21,10 @@ class _RequestscreenState extends State<Requestscreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getinfo();
+    //getinfo();
   }
 
- List<String> datelist = [];
+  List<String> datelist = [];
   List<String> timelist = [];
   List<String> servicelist = [];
   List<String> usernamelist = [];
@@ -61,7 +61,7 @@ class _RequestscreenState extends State<Requestscreen> {
             ),
             Center(
               child: Text(
-                'Pending requests thee',
+                'Pending requests',
                 style: GoogleFonts.montserrat(
                     color: Color(yellow),
                     fontSize: 20,
@@ -70,53 +70,87 @@ class _RequestscreenState extends State<Requestscreen> {
             ),
             Expanded(
               child: FutureBuilder(
-                      future: FirebaseFirestore.instance
-                .collection('partners')
-                .doc(FirebaseAuth.instance.currentUser!.uid).collection('booking_data')
-                .get(),
-                      builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              return ListView.builder(
-                itemCount: (snapshot.data! as dynamic).docs.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => StudentDetail(
-                      //       uidstudent: (snapshot.data! as dynamic).docs[index]
-                      //           ['uid'],
-                      //     ),
-                      //   ),
-                      // );
-                      // setState(() {
-                      //   studentid =
-                      //       (snapshot.data! as dynamic).docs[index]['uid'];
-                      //   print(studentid);
-                      // });
+                future: FirebaseFirestore.instance
+                    .collection('partners')
+                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                    .collection('booking_data')
+                    .get(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return ListView.builder(
+                    itemCount: (snapshot.data! as dynamic).docs.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(11),
+                            color: Colors.white,
+                          ),
+                          height: 100,
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.person_rounded,
+                                    size: 40,
+                                  ),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Text(
+                                    (snapshot.data! as dynamic).docs[index]
+                                        ['user-name'],
+                                    style: GoogleFonts.montserrat(
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 7),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                  
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                      
+                                      const Text('Service'),
+                                      Text(
+                                        (snapshot.data! as dynamic).docs[index]
+                                            ['servicetype'],
+                                      ),
+                                    ]),
+                                  ),
+                                  const Text('Vehicle Name'),
+                                  
+                                ],
+                              ),
+
+                              // Text(
+                              //   (snapshot.data! as dynamic).docs[index]
+                              //       ['booked-date'],
+                              // ),
+
+                              // Text(
+                              //   (snapshot.data! as dynamic).docs[index]['time'],
+                              // ),
+                            ],
+                          ),
+                        ),
+                      );
                     },
-                    child: Container(color: Colors.white,
-                      child: Row(
-                        children: [
-                          Text(
-                            (snapshot.data! as dynamic).docs[index]['user-name'],
-                          ),
-                          const Text('   '),
-                          Text(
-                            (snapshot.data! as dynamic).docs[index]['booked-date'],
-                          ),
-                        ],
-                      ),
-                    ),
                   );
                 },
-              );
-                      },
-                    ),
+              ),
             )
           ],
         ),
@@ -124,4 +158,3 @@ class _RequestscreenState extends State<Requestscreen> {
     );
   }
 }
-
