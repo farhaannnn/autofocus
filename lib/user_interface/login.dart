@@ -2,6 +2,7 @@ import 'package:auto_focus/company_interface/account.dart';
 import 'package:auto_focus/company_interface/details.dart';
 import 'package:auto_focus/company_interface/home.dart';
 import 'package:auto_focus/company_interface/start.dart';
+import 'package:auto_focus/test.dart';
 import 'package:auto_focus/user_interface/bottomnav.dart';
 import 'package:auto_focus/user_interface/createacc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -53,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
         page=const Bottomnav();
         break;
         case 'PARTNER':
-        page= const Homescreen1();
+        page=  Homescreen1();
         break;
         default:
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(role)));

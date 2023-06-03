@@ -5,14 +5,14 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Requestscreen extends StatefulWidget {
-  Requestscreen({super.key});
+class Testscreen extends StatefulWidget {
+  Testscreen({super.key});
 
   @override
-  State<Requestscreen> createState() => _RequestscreenState();
+  State<Testscreen> createState() => _TestscreenState();
 }
 
-class _RequestscreenState extends State<Requestscreen> {
+class _TestscreenState extends State<Testscreen> {
   var grey = 0xFF9D9D9D;
 
   var yellow = 0xFFFED604;
@@ -61,61 +61,63 @@ class _RequestscreenState extends State<Requestscreen> {
             ),
             Center(
               child: Text(
-                'Pending requests',
+                'Pending requests thee',
                 style: GoogleFonts.montserrat(
                     color: Color(yellow),
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
             ),
-            FutureBuilder(
-          future: FirebaseFirestore.instance
-              .collection('partners')
-              .doc(FirebaseAuth.instance.currentUser!.uid).collection('booking_data')
-              .get(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return ListView.builder(
-              itemCount: (snapshot.data! as dynamic).docs.length,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    // Navigator.of(context).push(
-                    //   MaterialPageRoute(
-                    //     builder: (context) => StudentDetail(
-                    //       uidstudent: (snapshot.data! as dynamic).docs[index]
-                    //           ['uid'],
-                    //     ),
-                    //   ),
-                    // );
-                    // setState(() {
-                    //   studentid =
-                    //       (snapshot.data! as dynamic).docs[index]['uid'];
-                    //   print(studentid);
-                    // });
-                  },
-                  child: ListTile(
-                    title: Row(
-                      children: [
-                        Text(
-                          (snapshot.data! as dynamic).docs[index]['id'],
-                        ),
-                        const Text('   '),
-                        Text(
-                          (snapshot.data! as dynamic).docs[index]['name'],
-                        ),
-                      ],
-                    ),
-                  ),
+            Expanded(
+              child: FutureBuilder(
+                      future: FirebaseFirestore.instance
+                .collection('partners')
+                .doc(FirebaseAuth.instance.currentUser!.uid).collection('booking_data')
+                .get(),
+                      builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(
+                  child: CircularProgressIndicator(),
                 );
-              },
-            );
-          },
-        )
+              }
+              return ListView.builder(
+                itemCount: (snapshot.data! as dynamic).docs.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      // Navigator.of(context).push(
+                      //   MaterialPageRoute(
+                      //     builder: (context) => StudentDetail(
+                      //       uidstudent: (snapshot.data! as dynamic).docs[index]
+                      //           ['uid'],
+                      //     ),
+                      //   ),
+                      // );
+                      // setState(() {
+                      //   studentid =
+                      //       (snapshot.data! as dynamic).docs[index]['uid'];
+                      //   print(studentid);
+                      // });
+                    },
+                    child: Container(color: Colors.white,
+                      child: Row(
+                        children: [
+                          Text(
+                            (snapshot.data! as dynamic).docs[index]['user-name'],
+                          ),
+                          const Text('   '),
+                          Text(
+                            (snapshot.data! as dynamic).docs[index]['booked-date'],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+                      },
+                    ),
+            )
           ],
         ),
       )),

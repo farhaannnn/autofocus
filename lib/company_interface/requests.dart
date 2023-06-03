@@ -24,7 +24,7 @@ class _RequestscreenState extends State<Requestscreen> {
     getinfo();
   }
 
-  List<String> datelist = [];
+ List<String> datelist = [];
   List<String> timelist = [];
   List<String> servicelist = [];
   List<String> usernamelist = [];
@@ -61,51 +61,62 @@ class _RequestscreenState extends State<Requestscreen> {
             ),
             Center(
               child: Text(
-                'Pending requests',
+                'Pending requests thee',
                 style: GoogleFonts.montserrat(
                     color: Color(yellow),
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
             ),
-            
             Expanded(
-              child: ListView.builder(
-                itemBuilder: ((context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      color: Colors.white,
-                      height: 110,
+              child: FutureBuilder(
+                      future: FirebaseFirestore.instance
+                .collection('partners')
+                .doc(FirebaseAuth.instance.currentUser!.uid).collection('booking_data')
+                .get(),
+                      builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return ListView.builder(
+                itemCount: (snapshot.data! as dynamic).docs.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      // Navigator.of(context).push(
+                      //   MaterialPageRoute(
+                      //     builder: (context) => StudentDetail(
+                      //       uidstudent: (snapshot.data! as dynamic).docs[index]
+                      //           ['uid'],
+                      //     ),
+                      //   ),
+                      // );
+                      // setState(() {
+                      //   studentid =
+                      //       (snapshot.data! as dynamic).docs[index]['uid'];
+                      //   print(studentid);
+                      // });
+                    },
+                    child: Container(color: Colors.white,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              Text('Date :${usernamelist[index]}'),
-                              Text('Date :${datelist[index]}'),
-                              Text('Time${timelist[index]}'),
-                            ]),
+                          Text(
+                            (snapshot.data! as dynamic).docs[index]['user-name'],
                           ),
-                          Container(
-                              child: Row(
-                            children: [
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.check_circle)),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.cancel_rounded))
-                            ],
-                          )),
+                          const Text('   '),
+                          Text(
+                            (snapshot.data! as dynamic).docs[index]['booked-date'],
+                          ),
                         ],
                       ),
                     ),
                   );
-                }),
-                itemCount: datelist.length,
-              ),
+                },
+              );
+                      },
+                    ),
             )
           ],
         ),
@@ -113,3 +124,4 @@ class _RequestscreenState extends State<Requestscreen> {
     );
   }
 }
+
