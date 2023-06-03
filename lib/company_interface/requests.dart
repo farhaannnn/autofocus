@@ -47,6 +47,28 @@ class _RequestscreenState extends State<Requestscreen> {
     }
   }
 
+  cancelbooking(String name, String service) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('partners')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('booking_data')
+        .where('user-name', isEqualTo: name)
+        .where('servicetype', isEqualTo: service)
+        .get();
+    String id = querySnapshot.docs[0].id;
+    await FirebaseFirestore.instance
+        .collection('partners')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('booking_data')
+        .doc(id)
+        .delete();
+        setState(() {
+          
+        });
+  }
+confirmbooking()async{
+  
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,6 +92,7 @@ class _RequestscreenState extends State<Requestscreen> {
             ),
             Expanded(
               child: FutureBuilder(
+                
                 future: FirebaseFirestore.instance
                     .collection('partners')
                     .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -91,16 +114,16 @@ class _RequestscreenState extends State<Requestscreen> {
                             borderRadius: BorderRadius.circular(11),
                             color: Colors.white,
                           ),
-                          height: 100,
+                          height: 150,
                           child: Column(
                             children: [
                               Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.person_rounded,
                                     size: 40,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 15,
                                   ),
                                   Text(
@@ -115,25 +138,41 @@ class _RequestscreenState extends State<Requestscreen> {
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                  
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(left: 10.0),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                      
-                                      const Text('Service'),
-                                      Text(
-                                        (snapshot.data! as dynamic).docs[index]
-                                            ['servicetype'],
-                                      ),
-                                    ]),
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text('Service'),
+                                          Text(
+                                            (snapshot.data! as dynamic)
+                                                .docs[index]['servicetype'],
+                                          ),
+                                        ]),
                                   ),
                                   const Text('Vehicle Name'),
-                                  
                                 ],
                               ),
+                              Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        confirmbooking();
+                                      },
+                                      icon: const Icon(Icons.check_circle)),
+                                  IconButton(
+                                      onPressed: () {
+                                           cancelbooking(
+                                            (snapshot.data! as dynamic)
+                                                .docs[index]['user-name'],
+                                            (snapshot.data! as dynamic)
+                                                .docs[index]['servicetype']);
+                                      },
+                                      icon: const Icon(Icons.cancel_rounded)),
+                                ],
+                              )
 
                               // Text(
                               //   (snapshot.data! as dynamic).docs[index]
