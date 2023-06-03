@@ -63,6 +63,7 @@ class _bookingState extends State<booking> {
   //     'time': FieldValue.arrayUnion([time])
   //   });
   // }
+
   getpartners() async {
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('partners').get();
@@ -71,12 +72,50 @@ class _bookingState extends State<booking> {
       partners.add(data);
     }
   }
+  String? data;
+storebooking()async
+{
+  DocumentSnapshot snap=  await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
 
+    String name=(snap.data() as Map<String,dynamic>)['name'];        
+    if(widget.id==1)
+    {
+      servicetype='ac-service';
+    }
+     if(widget.id==2)
+    {
+      servicetype='oil-service';
+    }
+     if(widget.id==3)
+    {
+      servicetype='wheel-alignment';
+    }
+     if(widget.id==4)
+    {
+      servicetype='car-wash';
+    }
+
+    await FirebaseFirestore.instance
+        .collection('partners')
+        .doc(data)
+        .collection('booking_data')
+        .doc()
+        .set({'user-name':name,
+        'booked-date':storeddate,
+        'time':time,
+        'servicetype':servicetype
+        });
+}
   searchpartid() async {
     final search = await FirebaseFirestore.instance
         .collection('partners')
-        .where('companyname', isEqualTo: valuechoose);
-    print(search);
+        .where('companyname', isEqualTo: valuechoose)
+        .get();
+     data = (search.docs[0].data() as dynamic)['uid'];
+    
   }
 
   String? valuechoose;
@@ -117,6 +156,7 @@ class _bookingState extends State<booking> {
   String storeddate = "";
   String time = "";
   String servicetype = "ac service";
+ 
 
   getaddress() async {
     DocumentSnapshot snap = await FirebaseFirestore.instance
@@ -178,7 +218,7 @@ class _bookingState extends State<booking> {
                 // width: 160,
                 // height: 60,
                 child: DropdownButtonFormField(
-                    hint: const Text("Choose Company"),
+                    hint: Text('Select company'),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10)),
@@ -186,7 +226,9 @@ class _bookingState extends State<booking> {
                       filled: true,
                     ),
                     value: valuechoose,
-                    onTap: () {},
+                    onTap: () {
+                      valuechoose = partners[0];
+                    },
                     items: partners
                         .map((e) => DropdownMenuItem(
                               value: e,
@@ -196,8 +238,8 @@ class _bookingState extends State<booking> {
                     onChanged: (value) {
                       setState(() {
                         valuechoose = value as String;
-                        searchpartid();
                       });
+                      searchpartid();
                     }),
               ),
 
@@ -483,6 +525,7 @@ class _bookingState extends State<booking> {
                       String servicedate = storeddate + "," + time;
                       //storedetails();
                       storecollection(servicedate);
+                      storebooking();
                       // storepartner();
                       Navigator.pushReplacement(
                           context,
