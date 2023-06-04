@@ -108,7 +108,8 @@ storebooking()async
         'booked-date':storeddate,
         'time':time,
         'servicetype':servicetype,
-        'vehicle':vehicle
+        'vehicle':vehicle,
+        'uid': FirebaseAuth.instance.currentUser!.uid,
         });
 }
   searchpartid() async {

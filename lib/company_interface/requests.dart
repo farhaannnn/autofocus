@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -14,7 +15,6 @@ class Requestscreen extends StatefulWidget {
 
 class _RequestscreenState extends State<Requestscreen> {
   var grey = 0xFF9D9D9D;
-
   var yellow = 0xFFFED604;
 
   @override
@@ -24,36 +24,48 @@ class _RequestscreenState extends State<Requestscreen> {
     //getinfo();
   }
 
+  bool visibility = true;
   List<String> datelist = [];
   List<String> timelist = [];
   List<String> servicelist = [];
   List<String> usernamelist = [];
-  getinfo() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+
+  Future<bool> getstatus(
+      String name, String service, String date, String time) async {
+    final query = await FirebaseFirestore.instance
         .collection('partners')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('booking_data')
+        .where('user-name', isEqualTo: name)
+        .where('servicetype', isEqualTo: service)
+        .where('booked-date', isEqualTo: date)
+        .where('time', isEqualTo: time)
         .get();
-    for (var document in querySnapshot.docs) {
-      String date = (document.data() as Map<String, dynamic>)['booked-date'];
-      String time = (document.data() as Map<String, dynamic>)['time'];
-      String servicetype =
-          (document.data() as Map<String, dynamic>)['servicetype'];
-      String username = (document.data() as Map<String, dynamic>)['user-name'];
-      datelist.add(date);
-      timelist.add(time);
-      servicelist.add(servicetype);
-      usernamelist.add(username);
+    String uid = (query.docs[0].data() as Map<String, dynamic>)['uid'];
+    String docdate = date + ',' + time;
+    DocumentSnapshot snap = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('booking_data')
+        .doc(docdate)
+        .get();
+    String status = (snap.data() as Map<String, dynamic>)['status'];
+    if (status == 'pending') {
+      return true;
+    } else {
+      return false;
     }
   }
 
-  cancelbooking(String name, String service) async {
+  cancelbooking(String name, String service, String date, String time) async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('partners')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('booking_data')
         .where('user-name', isEqualTo: name)
         .where('servicetype', isEqualTo: service)
+        .where('booked-date', isEqualTo: date)
+        .where('time', isEqualTo: time)
         .get();
     String id = querySnapshot.docs[0].id;
     await FirebaseFirestore.instance
@@ -62,13 +74,96 @@ class _RequestscreenState extends State<Requestscreen> {
         .collection('booking_data')
         .doc(id)
         .delete();
-        setState(() {
-          
-        });
+    setState(() {});
   }
-confirmbooking()async{
 
-}
+  confirmbooking(String name, String service, String date, String time) async {
+    final query = await FirebaseFirestore.instance
+        .collection('partners')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('booking_data')
+        .where('user-name', isEqualTo: name)
+        .where('servicetype', isEqualTo: service)
+        .where('booked-date', isEqualTo: date)
+        .where('time', isEqualTo: time)
+        .get();
+    String uid = (query.docs[0].data() as Map<String, dynamic>)['uid'];
+    String docdate = date + ',' + time;
+    if (service == 'ac-service') {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('ac_service')
+          .doc(docdate)
+          .update({'status': 'Accepted'});
+    } else if (service == 'oil-service') {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('oil_service')
+          .doc(docdate)
+          .update({'status': 'Accepted'});
+    } else if (service == 'wheel-alignment') {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('wheel_service')
+          .doc(docdate)
+          .update({'status': 'Accepted'});
+    } else if (service == 'wash-service') {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('wash_service')
+          .doc(docdate)
+          .update({'status': 'Accepted'});
+    }
+    return 'Accepted';
+  }
+
+  completebooking(String name, String service, String date, String time) async {
+    final query = await FirebaseFirestore.instance
+        .collection('partners')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('booking_data')
+        .where('user-name', isEqualTo: name)
+        .where('servicetype', isEqualTo: service)
+        .where('booked-date', isEqualTo: date)
+        .where('time', isEqualTo: time)
+        .get();
+    String uid = (query.docs[0].data() as Map<String, dynamic>)['uid'];
+    String docdate = date + ',' + time;
+    if (service == 'ac-service') {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('ac_service')
+          .doc(docdate)
+          .update({'status': 'Completed'});
+    } else if (service == 'oil-service') {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('oil_service')
+          .doc(docdate)
+          .update({'status': 'Completed'});
+    } else if (service == 'wheel-alignment') {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('wheel_service')
+          .doc(docdate)
+          .update({'status': 'Completed'});
+    } else if (service == 'wash-service') {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('wash_service')
+          .doc(docdate)
+          .update({'status': 'Completed'});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +174,7 @@ confirmbooking()async{
         child: Column(
           children: [
             const SizedBox(
-              height: 20,
+              height: 1,
             ),
             Center(
               child: Text(
@@ -90,9 +185,11 @@ confirmbooking()async{
                     fontWeight: FontWeight.bold),
               ),
             ),
+            const SizedBox(
+              height: 29,
+            ),
             Expanded(
               child: FutureBuilder(
-                
                 future: FirebaseFirestore.instance
                     .collection('partners')
                     .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -104,17 +201,15 @@ confirmbooking()async{
                       child: CircularProgressIndicator(),
                     );
                   }
-                  return ListView.builder(
-                    itemCount: (snapshot.data! as dynamic).docs.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
+                  return ListView.separated(
+                      itemCount: (snapshot.data! as dynamic).docs.length,
+                      itemBuilder: (context, index) {
+                        return Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(11),
                             color: Colors.white,
                           ),
-                          height: 150,
+                          // height: 150,
                           child: Column(
                             children: [
                               Row(
@@ -124,13 +219,14 @@ confirmbooking()async{
                                     size: 40,
                                   ),
                                   const SizedBox(
-                                    width: 15,
+                                    width: 7,
                                   ),
                                   Text(
                                     (snapshot.data! as dynamic).docs[index]
                                         ['user-name'],
-                                    style: GoogleFonts.montserrat(
-                                        fontWeight: FontWeight.w600),
+                                    style: GoogleFonts.raleway(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
@@ -145,59 +241,184 @@ confirmbooking()async{
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          const Text('Service'),
+                                          Text(
+                                            'Service:',
+                                            style: GoogleFonts.raleway(
+                                                fontSize: 15.5,
+                                                fontWeight: FontWeight.bold),
+                                          ),
                                           Text(
                                             (snapshot.data! as dynamic)
                                                 .docs[index]['servicetype'],
+                                            style: GoogleFonts.raleway(
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                           ),
                                         ]),
                                   ),
-                                  Column(
-                                    children: [
-                                      const Text('Vehicle Name'),
-                                      Text(
-                                    (snapshot.data! as dynamic).docs[index]
-                                        ['vehicle'][0],
-                                    style: GoogleFonts.montserrat(
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                    ],
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 8.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Vehicle Name:',
+                                          style: GoogleFonts.raleway(
+                                              fontSize: 15.5,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          (snapshot.data! as dynamic)
+                                              .docs[index]['vehicle'][0],
+                                          style: GoogleFonts.raleway(
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
+                              const Divider(
+                                height: 20,
+                                thickness: 0.7,
+                                color: Colors.grey,
+                              ),
                               Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        confirmbooking();
-                                      },
-                                      icon: const Icon(Icons.check_circle)),
-                                  IconButton(
-                                      onPressed: () {
-                                           cancelbooking(
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10.0),
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Booking Date:',
+                                            style: GoogleFonts.raleway(
+                                                fontSize: 15.5,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            (snapshot.data! as dynamic)
+                                                .docs[index]['booked-date'],
+                                            style: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ]),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Booking Time:',
+                                          style: GoogleFonts.raleway(
+                                              fontSize: 15.5,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          (snapshot.data! as dynamic)
+                                              .docs[index]['time'],
+                                          style: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              Visibility(
+                                visible: visibility,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          confirmbooking(
                                             (snapshot.data! as dynamic)
                                                 .docs[index]['user-name'],
                                             (snapshot.data! as dynamic)
-                                                .docs[index]['servicetype']);
-                                      },
-                                      icon: const Icon(Icons.cancel_rounded)),
-                                ],
-                              )
+                                                .docs[index]['servicetype'],
+                                            (snapshot.data! as dynamic)
+                                                .docs[index]['booked-date'],
+                                            (snapshot.data! as dynamic)
+                                                .docs[index]['time'],
+                                          );
+                                          setState(() {
+                                            visibility = !visibility;
+                                          });
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.green),
+                                        child: Text(
+                                          'Accept',
+                                          style: GoogleFonts.raleway(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )),
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          cancelbooking(
+                                            (snapshot.data! as dynamic)
+                                                .docs[index]['user-name'],
+                                            (snapshot.data! as dynamic)
+                                                .docs[index]['servicetype'],
+                                            (snapshot.data! as dynamic)
+                                                .docs[index]['booked-date'],
+                                            (snapshot.data! as dynamic)
+                                                .docs[index]['time'],
+                                          );
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.red),
+                                        child: Text(
+                                          'Decline',
+                                          style: GoogleFonts.raleway(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ))
 
-                              // Text(
-                              //   (snapshot.data! as dynamic).docs[index]
-                              //       ['booked-date'],
-                              // ),
-
-                              // Text(
-                              //   (snapshot.data! as dynamic).docs[index]['time'],
-                              // ),
+                                    //     icon: const Icon(Icons.cancel_rounded)),
+                                  ],
+                                ),
+                              ),
+                              Visibility(
+                                visible: !visibility,
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      completebooking(
+                                        (snapshot.data! as dynamic).docs[index]
+                                            ['user-name'],
+                                        (snapshot.data! as dynamic).docs[index]
+                                            ['servicetype'],
+                                        (snapshot.data! as dynamic).docs[index]
+                                            ['booked-date'],
+                                        (snapshot.data! as dynamic).docs[index]
+                                            ['time'],
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            Color.fromARGB(255, 21, 112, 249)),
+                                    child: Text(
+                                      'Completed',
+                                      style: GoogleFonts.raleway(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    )),
+                              ),
                             ],
                           ),
-                        ),
-                      );
-                    },
-                  );
+                        );
+                      },
+                      separatorBuilder: (context, index) => SizedBox(
+                            height: 20,
+                          ));
                 },
               ),
             )
