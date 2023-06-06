@@ -72,53 +72,62 @@ class _bookingState extends State<booking> {
       partners.add(data);
     }
   }
+
   String? data;
-storebooking()async
-{
-  DocumentSnapshot snap=  await FirebaseFirestore.instance
+  storebooking(String datestored) async {
+    DocumentSnapshot snap = await FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
-      List vehicle=(snap.data() as Map<String,dynamic>)['cars'];
+    List vehicle = (snap.data() as Map<String, dynamic>)['cars'];
 
-    String name=(snap.data() as Map<String,dynamic>)['name'];        
-    if(widget.id==1)
-    {
-      servicetype='ac-service';
+    String name = (snap.data() as Map<String, dynamic>)['name'];
+    String bookedservice='ac_service';
+    if (widget.id == 1) {
+      servicetype = 'ac-service';
+      bookedservice = 'ac_service';
     }
-     if(widget.id==2)
-    {
-      servicetype='oil-service';
+    if (widget.id == 2) {
+      servicetype = 'oil-service';
+      bookedservice = 'oil_service';
     }
-     if(widget.id==3)
-    {
-      servicetype='wheel-alignment';
+    if (widget.id == 3) {
+      servicetype = 'wheel-alignment';
+      bookedservice = 'wheel_service';
     }
-     if(widget.id==4)
-    {
-      servicetype='car-wash';
+    if (widget.id == 4) {
+      servicetype = 'car-wash';
+      bookedservice = 'wash_service';
     }
-
+    DocumentSnapshot snap2 = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection(bookedservice)
+        .doc(datestored)
+        .get();
+        String status=(snap2.data() as Map<String,dynamic>)['status'];
     await FirebaseFirestore.instance
         .collection('partners')
         .doc(data)
         .collection('booking_data')
         .doc()
-        .set({'user-name':name,
-        'booked-date':storeddate,
-        'time':time,
-        'servicetype':servicetype,
-        'vehicle':vehicle,
-        'uid': FirebaseAuth.instance.currentUser!.uid,
-        });
-}
+        .set({
+      'user-name': name,
+      'booked-date': storeddate,
+      'time': time,
+      'servicetype': servicetype,
+      'vehicle': vehicle,
+      'uid': FirebaseAuth.instance.currentUser!.uid,
+      'user-status':status
+    });
+  }
+
   searchpartid() async {
     final search = await FirebaseFirestore.instance
         .collection('partners')
         .where('companyname', isEqualTo: valuechoose)
         .get();
-     data = (search.docs[0].data() as dynamic)['uid'];
-    
+    data = (search.docs[0].data() as dynamic)['uid'];
   }
 
   String? valuechoose;
@@ -159,7 +168,6 @@ storebooking()async
   String storeddate = "";
   String time = "";
   String servicetype = "ac service";
- 
 
   getaddress() async {
     DocumentSnapshot snap = await FirebaseFirestore.instance
@@ -528,7 +536,7 @@ storebooking()async
                       String servicedate = storeddate + "," + time;
                       //storedetails();
                       storecollection(servicedate);
-                      storebooking();
+                      storebooking(servicedate);
                       // storepartner();
                       Navigator.pushReplacement(
                           context,

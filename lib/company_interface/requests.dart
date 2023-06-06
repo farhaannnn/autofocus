@@ -89,79 +89,46 @@ class _RequestscreenState extends State<Requestscreen> {
         .get();
     String uid = (query.docs[0].data() as Map<String, dynamic>)['uid'];
     String docdate = date + ',' + time;
-    if (service == 'ac-service') {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .collection('ac_service')
-          .doc(docdate)
-          .update({'status': 'Accepted'});
-    } else if (service == 'oil-service') {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .collection('oil_service')
-          .doc(docdate)
-          .update({'status': 'Accepted'});
-    } else if (service == 'wheel-alignment') {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .collection('wheel_service')
-          .doc(docdate)
-          .update({'status': 'Accepted'});
-    } else if (service == 'wash-service') {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .collection('wash_service')
-          .doc(docdate)
-          .update({'status': 'Accepted'});
-    }
-    return 'Accepted';
-  }
-
-  completebooking(String name, String service, String date, String time) async {
-    final query = await FirebaseFirestore.instance
+    String id = query.docs[0].id;
+    await FirebaseFirestore.instance
         .collection('partners')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('booking_data')
-        .where('user-name', isEqualTo: name)
-        .where('servicetype', isEqualTo: service)
-        .where('booked-date', isEqualTo: date)
-        .where('time', isEqualTo: time)
-        .get();
-    String uid = (query.docs[0].data() as Map<String, dynamic>)['uid'];
-    String docdate = date + ',' + time;
+        .doc(id)
+        .update({'user-status': 'Accepted'});
     if (service == 'ac-service') {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(uid)
           .collection('ac_service')
           .doc(docdate)
-          .update({'status': 'Completed'});
+          .update({'status': 'Accepted'});
     } else if (service == 'oil-service') {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(uid)
           .collection('oil_service')
           .doc(docdate)
-          .update({'status': 'Completed'});
+          .update({'status': 'Accepted'});
     } else if (service == 'wheel-alignment') {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(uid)
           .collection('wheel_service')
           .doc(docdate)
-          .update({'status': 'Completed'});
+          .update({'status': 'Accepted'});
     } else if (service == 'wash-service') {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(uid)
           .collection('wash_service')
           .doc(docdate)
-          .update({'status': 'Completed'});
+          .update({'status': 'Accepted'});
     }
+    setState(() {
+      
+    });
+    return 'Accepted';
   }
 
   @override
@@ -194,6 +161,7 @@ class _RequestscreenState extends State<Requestscreen> {
                     .collection('partners')
                     .doc(FirebaseAuth.instance.currentUser!.uid)
                     .collection('booking_data')
+                    .where('user-status', isEqualTo: 'pending')
                     .get(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -332,7 +300,7 @@ class _RequestscreenState extends State<Requestscreen> {
                                 height: 12,
                               ),
                               Visibility(
-                                visible: visibility,
+                                //visible: visibility,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -387,31 +355,31 @@ class _RequestscreenState extends State<Requestscreen> {
                                   ],
                                 ),
                               ),
-                              Visibility(
-                                visible: !visibility,
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      completebooking(
-                                        (snapshot.data! as dynamic).docs[index]
-                                            ['user-name'],
-                                        (snapshot.data! as dynamic).docs[index]
-                                            ['servicetype'],
-                                        (snapshot.data! as dynamic).docs[index]
-                                            ['booked-date'],
-                                        (snapshot.data! as dynamic).docs[index]
-                                            ['time'],
-                                      );
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            Color.fromARGB(255, 21, 112, 249)),
-                                    child: Text(
-                                      'Completed',
-                                      style: GoogleFonts.raleway(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    )),
-                              ),
+                              // Visibility(
+                              //   //visible: !visibility,
+                              //   child: ElevatedButton(
+                              //       onPressed: () {
+                              //         completebooking(
+                              //           (snapshot.data! as dynamic).docs[index]
+                              //               ['user-name'],
+                              //           (snapshot.data! as dynamic).docs[index]
+                              //               ['servicetype'],
+                              //           (snapshot.data! as dynamic).docs[index]
+                              //               ['booked-date'],
+                              //           (snapshot.data! as dynamic).docs[index]
+                              //               ['time'],
+                              //         );
+                              //       },
+                              //       style: ElevatedButton.styleFrom(
+                              //           backgroundColor:
+                              //               Color.fromARGB(255, 21, 112, 249)),
+                              //       child: Text(
+                              //         'Completed',
+                              //         style: GoogleFonts.raleway(
+                              //             fontWeight: FontWeight.bold,
+                              //             color: Colors.white),
+                              //       )),
+                              // ),
                             ],
                           ),
                         );
