@@ -3,6 +3,8 @@ import 'package:auto_focus/user_interface/acservice.dart';
 import 'package:auto_focus/user_interface/alignment.dart';
 import 'package:auto_focus/user_interface/login.dart';
 import 'package:auto_focus/user_interface/searchscreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -17,6 +19,36 @@ class Homescreen extends StatefulWidget {
 
   @override
   State<Homescreen> createState() => _HomescreenState();
+}
+
+String? _name;
+String? _mobile;
+void emergency() async {
+  DocumentSnapshot snap = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .get();
+  _name = (snap.data() as Map<String, dynamic>)['name'];
+  _mobile = (snap.data() as Map<String, dynamic>)['mobile'];
+  print(_name);
+  print(_mobile);
+  String _vehicle = (snap.data() as Map<String, dynamic>)['cars'][0];
+
+  QuerySnapshot querysnapshot =
+      await FirebaseFirestore.instance.collection('partners').get();
+  for (var doc in querysnapshot.docs) {
+    await FirebaseFirestore.instance
+        .collection('partners')
+        .doc(doc.id)
+        .collection('booking_data')
+        .doc()
+        .set({
+      'name': _name,
+      'mobile': _mobile,
+      'vehicle': _vehicle,
+      'status': 'Emergency'
+    });
+  }
 }
 
 class _HomescreenState extends State<Homescreen> {
@@ -102,7 +134,7 @@ class _HomescreenState extends State<Homescreen> {
                       Navigator.push(
                           context,
                           PageTransition(
-                              child:  ACServiceScreen(),
+                              child: ACServiceScreen(),
                               type: PageTransitionType.rightToLeftWithFade));
                     },
                     child: const Icon(
@@ -165,26 +197,39 @@ class _HomescreenState extends State<Homescreen> {
                     )),
               ),
             ],
-          ),const SizedBox(height: 10,),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
           Row(
-           
             children: [
-              const SizedBox(width: 30,),
+              const SizedBox(
+                width: 30,
+              ),
               Text(
                 'ac service',
-                style: GoogleFonts.raleway(color: Colors.white,fontSize: 10),
-              ),const SizedBox(width: 40,),
+                style: GoogleFonts.raleway(color: Colors.white, fontSize: 10),
+              ),
+              const SizedBox(
+                width: 40,
+              ),
               Text(
                 'oil service',
-                style: GoogleFonts.raleway(color: Colors.white,fontSize: 10),
-              ),const SizedBox(width: 20,),
+                style: GoogleFonts.raleway(color: Colors.white, fontSize: 10),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
               Text(
                 'wheel alignment',
-                style: GoogleFonts.raleway(color: Colors.white,fontSize: 10),
-              ),const SizedBox(width: 25,),
+                style: GoogleFonts.raleway(color: Colors.white, fontSize: 10),
+              ),
+              const SizedBox(
+                width: 25,
+              ),
               Text(
                 'car wash',
-                style: GoogleFonts.raleway(color: Colors.white,fontSize: 10),
+                style: GoogleFonts.raleway(color: Colors.white, fontSize: 10),
               )
             ],
           ),
@@ -205,11 +250,15 @@ class _HomescreenState extends State<Homescreen> {
             child: Container(
               height: 110,
               width: double.infinity,
-              color: Colors.grey,
-              child: const Icon(
-                Icons.location_on,
+              color: Colors.black,
+              child: IconButton(
+                icon: Icon(Icons.location_pin),
+                onPressed: () {
+                  emergency();
+                },
+                iconSize: 50,
+                splashColor: Colors.red,
                 color: Colors.red,
-                size: 50,
               ),
             ),
           )

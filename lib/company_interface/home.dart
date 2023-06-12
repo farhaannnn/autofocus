@@ -1,3 +1,4 @@
+import 'package:auto_focus/company_interface/emergency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -19,7 +20,7 @@ class Homescreen1 extends StatefulWidget {
 
 class _Homescreen1State extends State<Homescreen1> {
   int _selectedIndex = 0;
-  final _screens = [Requestscreen(), Historyscreen(), Accountscreen()];
+  final _screens = [Requestscreen(),Emergency(), Historyscreen(), Accountscreen()];
   void _ontapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -34,6 +35,7 @@ class _Homescreen1State extends State<Homescreen1> {
       resizeToAvoidBottomInset: false,
       //bottom navigation bar
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.black,
           currentIndex: _selectedIndex,
           selectedItemColor: const Color(Homescreen1.yellow),
@@ -41,6 +43,7 @@ class _Homescreen1State extends State<Homescreen1> {
           onTap: _ontapped,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'HOME'),
+            BottomNavigationBarItem(icon: Icon(Icons.emergency_share_rounded), label: 'EMERGENCY'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.history), label: 'HISTORY'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'ACCOUNT')
