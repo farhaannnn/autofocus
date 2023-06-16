@@ -87,7 +87,7 @@ class _HistoryscreenState extends State<Historyscreen> {
           child: Padding(
             padding: const EdgeInsets.all(25),
             child: Column(
-                  children: [const SizedBox(height: 20,),
+                  children: [
             Center(
               child: Text(
                 'In progress',
@@ -96,7 +96,140 @@ class _HistoryscreenState extends State<Historyscreen> {
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
+              
             ),
+            const SizedBox(height: 20,),
+             Expanded(
+              child: FutureBuilder(
+                future: FirebaseFirestore.instance
+                    .collection('partners')
+                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                    .collection('booking_data')
+                    .where('status', isEqualTo: 'Emergency Accepted')
+                    .get(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return ListView.separated(
+                      itemCount: (snapshot.data! as dynamic).docs.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(11),
+                            color: Colors.white,
+                          ),
+                          // height: 150,
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.person_rounded,
+                                    size: 40,
+                                  ),
+                                  const SizedBox(
+                                    width: 7,
+                                  ),
+                                  Text(
+                                    (snapshot.data! as dynamic).docs[index]
+                                        ['name'],
+                                    style: GoogleFonts.raleway(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 7),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10.0),
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Service:',
+                                            style: GoogleFonts.raleway(
+                                                fontSize: 15.5,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                           'Emergency Service',
+                                            style: GoogleFonts.raleway(
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ]),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 8.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Vehicle Name:',
+                                          style: GoogleFonts.raleway(
+                                              fontSize: 15.5,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          (snapshot.data! as dynamic)
+                                              .docs[index]['vehicle'],
+                                          style: GoogleFonts.raleway(
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const Divider(
+                                height: 20,
+                                thickness: 0.7,
+                                color: Colors.grey,
+                              ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    // completebooking(
+                                    //   (snapshot.data! as dynamic).docs[index]
+                                    //       ['user-name'],
+                                    //   (snapshot.data! as dynamic).docs[index]
+                                    //       ['servicetype'],
+                                    //   (snapshot.data! as dynamic).docs[index]
+                                    //       ['booked-date'],
+                                    //   (snapshot.data! as dynamic).docs[index]
+                                    //       ['time'],
+                                    // );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Color.fromARGB(255, 21, 112, 249)),
+                                  child: Text(
+                                    'Completed',
+                                    style: GoogleFonts.raleway(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  )),
+                            ],
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) => SizedBox(
+                            height: 20,
+                          ));
+                },
+              ),
+            ),
+            SizedBox(height: 20,),
+            
             Expanded(
               child: FutureBuilder(
                 future: FirebaseFirestore.instance

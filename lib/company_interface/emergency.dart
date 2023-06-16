@@ -21,7 +21,6 @@ void acceptbooking(String name, String vehicle) async {
       .where('name', isEqualTo: name)
       .where('vehicle', isEqualTo: vehicle)
       .get();
-  print('query.docs[0].id');
   await FirebaseFirestore.instance
       .collection('partners')
       .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -30,21 +29,25 @@ void acceptbooking(String name, String vehicle) async {
       .update({'status': 'Emergency Accepted'});
   QuerySnapshot querysnapshot =
       await FirebaseFirestore.instance.collection('partners').get();
+
   for (var doc in querysnapshot.docs) {
-    final query2 = await FirebaseFirestore.instance
-        .collection('partners')
-        .doc(doc.id)
-        .collection('booking_data')
-        .where('status', isEqualTo: 'Emergency')
-        .where('name', isEqualTo: name)
-        .where('vehicle', isEqualTo: vehicle)
-        .get();
-    await FirebaseFirestore.instance
-        .collection('partners')
-        .doc(doc.id)
-        .collection('booking_data')
-        .doc(query2.docs[0].id)
-        .delete();
+    if (doc.id != FirebaseAuth.instance.currentUser!.uid) {
+      final query2 = await FirebaseFirestore.instance
+          .collection('partners')
+          .doc(doc.id)
+          .collection('booking_data')
+          .where('status', isEqualTo: 'Emergency')
+          .where('name', isEqualTo: name)
+          .where('vehicle', isEqualTo: vehicle)
+          .get();
+
+      await FirebaseFirestore.instance
+          .collection('partners')
+          .doc(doc.id)
+          .collection('booking_data')
+          .doc(query2.docs[0].id)
+          .delete();
+    }
   }
 }
 
