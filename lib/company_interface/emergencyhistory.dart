@@ -3,83 +3,57 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'emergencyhistory.dart';
-
-class Emergency extends StatefulWidget {
-  const Emergency({super.key});
+class Emergencyhistory extends StatefulWidget {
+  const Emergencyhistory({super.key});
 
   @override
-  State<Emergency> createState() => _EmergencyState();
+  State<Emergencyhistory> createState() => _EmergencyhistoryState();
 }
 
-var grey = 0xFF9D9D9D;
-var yellow = 0xFFFED604;
-void acceptbooking(String name, String vehicle) async {
-  final query = await FirebaseFirestore.instance
-      .collection('partners')
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection('booking_data')
-      .where('status', isEqualTo: 'Emergency')
-      .where('name', isEqualTo: name)
-      .where('vehicle', isEqualTo: vehicle)
-      .get();
-  await FirebaseFirestore.instance
-      .collection('partners')
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection('booking_data')
-      .doc(query.docs[0].id)
-      .update({'status': 'Emergency Accepted'});
-  QuerySnapshot querysnapshot =
-      await FirebaseFirestore.instance.collection('partners').get();
+class _EmergencyhistoryState extends State<Emergencyhistory> {
+  completebooking(String name, String vehicle) async {
+    final query = await FirebaseFirestore.instance
+        .collection('partners')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('booking_data')
+        .where('name', isEqualTo: name)
+        .where('vehicle', isEqualTo: vehicle)
+        .where('status', isEqualTo: 'Emergency Accepted')
+        .get();
+    String uid = (query.docs[0].id);
 
-  for (var doc in querysnapshot.docs) {
-    if (doc.id != FirebaseAuth.instance.currentUser!.uid) {
-      final query2 = await FirebaseFirestore.instance
-          .collection('partners')
-          .doc(doc.id)
-          .collection('booking_data')
-          .where('status', isEqualTo: 'Emergency')
-          .where('name', isEqualTo: name)
-          .where('vehicle', isEqualTo: vehicle)
-          .get();
-
-      await FirebaseFirestore.instance
-          .collection('partners')
-          .doc(doc.id)
-          .collection('booking_data')
-          .doc(query2.docs[0].id)
-          .delete();
-    }
+    // QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    //     .collection('partners')
+    //     .doc(FirebaseAuth.instance.currentUser!.uid)
+    //     .collection('booking_data')
+    //     .where('user-name', isEqualTo: name)
+    //     .get();
+    // String id = querySnapshot.docs[0].id;
+    await FirebaseFirestore.instance
+        .collection('partners')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('booking_data')
+        .doc(uid)
+        .delete();
+    setState(() {});
   }
-}
 
-class _EmergencyState extends State<Emergency> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
           child: Padding(
-        padding: const EdgeInsets.all(25),
+        padding: const EdgeInsets.all(25.0),
         child: Column(
           children: [
-            Text(
-              "Emergency Requests",
-              style: GoogleFonts.montserrat(
-                  color: Color(yellow),
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 29,
-            ),
             Expanded(
               child: FutureBuilder(
                 future: FirebaseFirestore.instance
                     .collection('partners')
                     .doc(FirebaseAuth.instance.currentUser!.uid)
                     .collection('booking_data')
-                    .where('status', isEqualTo: 'Emergency')
+                    .where('status', isEqualTo: 'Emergency Accepted')
                     .get(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -88,12 +62,14 @@ class _EmergencyState extends State<Emergency> {
                     );
                   }
                   return ListView.separated(
+                      shrinkWrap: true,
                       itemCount: (snapshot.data! as dynamic).docs.length,
                       itemBuilder: (context, index) {
                         return Container(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(11),
-                              color: Color.fromARGB(255, 218, 212, 212)),
+                            borderRadius: BorderRadius.circular(11),
+                            color: Colors.white,
+                          ),
                           // height: 150,
                           child: Column(
                             children: [
@@ -133,7 +109,7 @@ class _EmergencyState extends State<Emergency> {
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           Text(
-                                            "Emergency",
+                                            'Emergency Service',
                                             style: GoogleFonts.raleway(
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -161,34 +137,32 @@ class _EmergencyState extends State<Emergency> {
                                   ),
                                 ],
                               ),
-                              Visibility(
-                                //visible: visibility,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    ElevatedButton(
-                                        onPressed: () {
-                                          acceptbooking(
-                                            (snapshot.data! as dynamic)
-                                                .docs[index]['name'],
-                                            (snapshot.data! as dynamic)
-                                                .docs[index]['vehicle'],
-                                          );
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.green),
-                                        child: Text(
-                                          'Accept',
-                                          style: GoogleFonts.raleway(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )),
-
-                                    //     icon: const Icon(Icons.cancel_rounded)),
-                                  ],
-                                ),
+                              const Divider(
+                                height: 20,
+                                thickness: 0.7,
+                                color: Colors.grey,
                               ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    completebooking(
+                                      (snapshot.data! as dynamic).docs[index]
+                                          ['name'],
+                                      (snapshot.data! as dynamic).docs[index]
+                                          ['vehicle'],
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Color.fromARGB(255, 21, 112, 249)),
+                                  child: Text(
+                                    'Completed',
+                                    style: GoogleFonts.raleway(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  )),
                             ],
                           ),
                         );
@@ -199,12 +173,6 @@ class _EmergencyState extends State<Emergency> {
                 },
               ),
             ),
-            FloatingActionButton(
-              child: Icon(Icons.warning),
-              onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (ctx) => Emergencyhistory()));
-            })
           ],
         ),
       )),

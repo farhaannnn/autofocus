@@ -49,6 +49,7 @@ void emergency() async {
       'status': 'Emergency'
     });
   }
+  
 }
 
 class _HomescreenState extends State<Homescreen> {
@@ -255,6 +256,13 @@ class _HomescreenState extends State<Homescreen> {
                 icon: Icon(Icons.location_pin),
                 onPressed: () {
                   emergency();
+                  ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar
+      
+      (shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    duration: const Duration(seconds: 3),
+                    backgroundColor: Colors.red,content: Text('All service providers have been alerted !')));
                 },
                 iconSize: 50,
                 splashColor: Colors.red,
