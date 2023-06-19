@@ -23,6 +23,20 @@ class Homescreen extends StatefulWidget {
 
 String? _name;
 String? _mobile;
+// String set = 'no';
+// ispresent() async {
+//   DocumentSnapshot snap = await FirebaseFirestore.instance
+//       .collection('users')
+//       .doc(FirebaseAuth.instance.currentUser!.uid)
+//       .collection('emergency-data')
+//       .doc()
+//       .get();
+//   if (snap.exists) {
+//     set = 'yes';
+//   }
+//   set = 'no';
+// }
+
 void emergency() async {
   DocumentSnapshot snap = await FirebaseFirestore.instance
       .collection('users')
@@ -46,13 +60,39 @@ void emergency() async {
       'name': _name,
       'mobile': _mobile,
       'vehicle': _vehicle,
-      'status': 'Emergency'
+      'status': 'Emergency',
+      'uid': FirebaseAuth.instance.currentUser!.uid
     });
   }
-  
 }
 
 class _HomescreenState extends State<Homescreen> {
+  String cname = "";
+  String cnum = "";
+  getsnap() async {
+    QuerySnapshot snap = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('emergency_data')
+        .get();
+    print(snap.docs[0]);
+    DocumentSnapshot documentSnapshot = snap.docs[0];
+    cname = (documentSnapshot.data() as Map<String, dynamic>)['company-name'];
+    cnum = (documentSnapshot.data() as Map<String, dynamic>)['company-mobile'];
+    print(cname);
+    print(cnum);
+    setState(() {});
+  }
+
+  late DocumentSnapshot snap1;
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+    getsnap();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -235,7 +275,7 @@ class _HomescreenState extends State<Homescreen> {
             ],
           ),
           const SizedBox(
-            height: 50,
+            height: 35,
           ),
           Center(
               child: Text(
@@ -256,20 +296,57 @@ class _HomescreenState extends State<Homescreen> {
                 icon: Icon(Icons.location_pin),
                 onPressed: () {
                   emergency();
-                  ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar
-      
-      (shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    duration: const Duration(seconds: 3),
-                    backgroundColor: Colors.red,content: Text('All service providers have been alerted !')));
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      duration: const Duration(seconds: 3),
+                      backgroundColor: Colors.red,
+                      content:
+                          Text('All service providers have been alerted !')));
                 },
                 iconSize: 50,
                 splashColor: Colors.red,
                 color: Colors.red,
               ),
             ),
-          )
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          if (cname != "" && cnum != "")
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: GestureDetector(
+                onTap: () => showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Container(height: 300,
+                        child: Column(
+                          children: [Text(cname),Text(cnum)],
+                        ),
+                      );
+                    }),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.all(Radius.circular(8))),
+                  height: 40,
+                  width: double.infinity,
+                  child: Center(
+                      child: Text(
+                    'Help is on the way',
+                    style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600),
+                  )),
+                ),
+              ),
+            )
+          else if (cname == "" || cnum == "")
+            Container(
+              color: Colors.transparent,
+            )
         ],
       )),
     );

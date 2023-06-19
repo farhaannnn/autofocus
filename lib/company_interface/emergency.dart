@@ -14,7 +14,7 @@ class Emergency extends StatefulWidget {
 
 var grey = 0xFF9D9D9D;
 var yellow = 0xFFFED604;
-void acceptbooking(String name, String vehicle) async {
+void acceptbooking(String name, String vehicle,String uid) async {
   final query = await FirebaseFirestore.instance
       .collection('partners')
       .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -51,6 +51,19 @@ void acceptbooking(String name, String vehicle) async {
           .delete();
     }
   }
+  DocumentSnapshot snap=await FirebaseFirestore.instance.collection('partners').doc(FirebaseAuth.instance.currentUser!.uid).get();
+  String name1=(snap.data() as Map<String,dynamic>)['companyname'];
+  String mobile1=(snap.data() as Map<String,dynamic>)['mobile'];
+
+  await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('emergency_data')
+          .doc()
+          .set({
+            'company-name':name1,
+            'company-mobile':mobile1
+          });
 }
 
 class _EmergencyState extends State<Emergency> {
@@ -174,6 +187,8 @@ class _EmergencyState extends State<Emergency> {
                                                 .docs[index]['name'],
                                             (snapshot.data! as dynamic)
                                                 .docs[index]['vehicle'],
+                                                (snapshot.data! as dynamic)
+                                                .docs[index]['uid']
                                           );
                                         },
                                         style: ElevatedButton.styleFrom(
