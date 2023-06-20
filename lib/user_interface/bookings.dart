@@ -260,7 +260,6 @@ class _BookingscreenState extends State<Bookingscreen> {
         l3.add((document.data() as Map<String, dynamic>)['status']);
       });
     }
-
   }
 
   @override
@@ -294,9 +293,11 @@ class _BookingscreenState extends State<Bookingscreen> {
                 // width: 160,
                 // height: 60,
                 child: DropdownButtonFormField(
+                  style: GoogleFonts.raleway(fontWeight: FontWeight.w600,color: Colors.black),
+                  borderRadius: BorderRadius.circular(12),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(12)),
                       fillColor: Colors.white,
                       filled: true,
                     ),
@@ -327,23 +328,82 @@ class _BookingscreenState extends State<Bookingscreen> {
                 child: ListView.builder(
                   itemBuilder: ((context, index) {
                     return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: 80,
-                        color: Colors.white,
                         padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              'Date :${l1[index]}',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            Text('Time :${l2[index]}'),
-                            Text('Status :${l3[index]}')
-                          ],
-                        ),
-                      ),
-                    );
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(11),
+                            color: Colors.white,
+                          ),
+                          // height: 150,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.car_repair_rounded,
+                                        size: 30,
+                                      ),
+                                      const SizedBox(
+                                        width: 80,
+                                      ),
+                                      Text(
+                                        '${l3[index]}',
+                                        style: GoogleFonts.montserrat(fontWeight: FontWeight.bold)
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 7,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Text(
+                                      'Date: ${l1[index]}',
+                                      style:GoogleFonts.montserrat(fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Text('Time: ${l2[index]}',style: GoogleFonts.montserrat(fontWeight: FontWeight.w500),),
+                                  ),
+                                  const Divider(
+                                    height: 20,
+                                    thickness: 0.7,
+                                    color: Color.fromARGB(255, 255, 0, 0),
+                                  ),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                width: 50,
+                              ),
+                              if (l3[index] == 'pending')
+                                const Padding(
+                                  padding: EdgeInsets.only(right: 8.0),
+                                  child: Icon(Icons.hourglass_bottom_rounded),
+                                )
+                              else if (l3[index] == 'Accepted')
+                                const Padding(
+                                  padding: EdgeInsets.only(right: 8.0),
+                                  child: Icon(Icons.check_sharp),
+                                )
+                              else if (l3[index] == 'Completed')
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                      Icons.check_circle_rounded,
+                                      color: Colors.green,
+                                    ),
+                                ),
+                            ],
+                          ),
+                        ));
                   }),
                   itemCount: l1.length,
                 ),

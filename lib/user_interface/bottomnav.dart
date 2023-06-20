@@ -36,9 +36,9 @@ class _BottomnavState extends State<Bottomnav> {
           unselectedItemColor: Colors.white,
           onTap: _ontapped,
           items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'HOME'),
+            BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'HOME'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.handshake), label: 'BOOKINGS'),
+                icon: Icon(Icons.book_online_rounded), label: 'BOOKINGS'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'ACCOUNT')
           ]),
     );

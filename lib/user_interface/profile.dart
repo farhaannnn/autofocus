@@ -80,14 +80,17 @@ class _ProfilescreenState extends State<Profilescreen> {
                 height: 60,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20, right: 30),
+                padding: const EdgeInsets.only(left: 15, right: 15),
                 child: TextFormField(
+                  
                   controller: _namecon,
                   enabled: _enabled,
                   cursorColor: Colors.white,
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
-                      focusedBorder: const OutlineInputBorder(
+                    fillColor: Colors.white,
+                    filled: true,
+                                         focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.white)),
                       prefixIcon: const Icon(Icons.perm_identity),
                       prefixIconColor: Colors.white,

@@ -235,7 +235,7 @@ class _SearchscreenState extends State<Searchscreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Select car'),
+        title:  Text('Select car',style: GoogleFonts.montserrat(fontWeight: FontWeight.w600,color: Colors.white),),
         backgroundColor: Colors.black,
         actions: [
           ElevatedButton(
@@ -243,7 +243,7 @@ class _SearchscreenState extends State<Searchscreen> {
                 vehicledetails();
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                        borderRadius: BorderRadius.circular(20)),
                     duration: const Duration(seconds: 3),
                     backgroundColor: Colors.green,
                     content: Text(
@@ -255,33 +255,50 @@ class _SearchscreenState extends State<Searchscreen> {
                     )));
                 Navigator.pop(context);
               },
-              child: const Text('Add'))
+              child:  Text('Add',style: GoogleFonts.montserrat(fontWeight: FontWeight.w700,color: Colors.white),))
         ],
       ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: searchController,
-              onChanged: (value) => filterVehicles(value),
-              decoration: const InputDecoration(
-                labelText: 'Search',
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Container(decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(18)),
+              child: TextField(
+                
+                         
+                controller: searchController,
+                onChanged: (value) => filterVehicles(value),
+                decoration: const InputDecoration(
+                  // border: OutlineInputBorder(
+                  //           borderRadius: BorderRadius.all(Radius.circular(20)),
+                  //         ),
+                  labelText: 'Search',
+                ),
               ),
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: filteredVehicles.length,
-              itemBuilder: (context, index) {
-                final vehicle = filteredVehicles[index];
-                return ListTile(
-                  title: Text(vehicle),
-                  onTap: () => setState(() {
-                    searchController.text = vehicle;
-                  }),
-                );
-              },
+            child: Container(
+              color: Colors.black,
+              
+              child: ListView.separated(
+                 separatorBuilder: (context, index) {
+    return const Divider(thickness: 0.3,color: Colors.white,);
+                 },
+                itemCount: filteredVehicles.length,
+                itemBuilder: (context, index) {
+                  final vehicle = filteredVehicles[index];
+                  return ListTile(
+                    title: Text(vehicle,style: GoogleFonts.raleway(color: Colors.white),),
+                    onTap: () => setState(() {
+
+                      searchController.text = vehicle;
+                    }),
+                  );
+                },
+              ),
             ),
           ),
         ],

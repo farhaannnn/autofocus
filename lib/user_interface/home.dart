@@ -11,6 +11,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../company_interface/emergency.dart';
 import 'carwash.dart';
 import 'oilservice.dart';
 
@@ -248,7 +249,7 @@ class _HomescreenState extends State<Homescreen> {
                 width: 30,
               ),
               Text(
-                'ac service',
+                ' ac service',
                 style: GoogleFonts.raleway(color: Colors.white, fontSize: 10),
               ),
               const SizedBox(
@@ -279,7 +280,7 @@ class _HomescreenState extends State<Homescreen> {
           ),
           Center(
               child: Text(
-            'Locate nearby service stations',
+            'Alert nearby service stations',
             style: GoogleFonts.raleway(
                 fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
           )),
@@ -293,7 +294,7 @@ class _HomescreenState extends State<Homescreen> {
               width: double.infinity,
               color: Colors.black,
               child: IconButton(
-                icon: Icon(Icons.location_pin),
+                icon: const Icon(Icons.location_pin),
                 onPressed: () {
                   emergency();
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -310,7 +311,7 @@ class _HomescreenState extends State<Homescreen> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           if (cname != "" && cnum != "")
@@ -318,18 +319,44 @@ class _HomescreenState extends State<Homescreen> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: GestureDetector(
                 onTap: () => showModalBottomSheet(
+                 // barrierColor: ,
+                  backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
                     context: context,
                     builder: (context) {
-                      return Container(height: 300,
-                        child: Column(
-                          children: [Text(cname),Text(cnum)],
+                      return Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Container(
+                          //color: Color(grey),
+                          height: 160,
+                          child: Column(
+                            children: [
+                              Text('Mechanic Details',style: GoogleFonts.montserrat(
+                                    fontSize: 16, fontWeight: FontWeight.w600),),
+                              const Divider(thickness: 3,),
+                              const SizedBox(height: 10,),
+                              Text(
+                                'Company Name: $cname',
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(height: 5,),
+                              Text('Mobile No: $cnum',
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600)),
+                              const SizedBox(height: 8,),
+                              const Icon(Icons.car_repair_rounded,size: 40,),
+                            ],
+                          ),
                         ),
                       );
                     }),
                 child: Container(
                   decoration: BoxDecoration(
                       color: Colors.green,
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
+                      borderRadius: const BorderRadius.all(Radius.circular(8))),
                   height: 40,
                   width: double.infinity,
                   child: Center(

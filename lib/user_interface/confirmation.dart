@@ -226,9 +226,12 @@ class _bookingState extends State<booking> {
               //   ),
               // ),
               Container(
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
                 // width: 160,
                 // height: 60,
                 child: DropdownButtonFormField(
+                  borderRadius: BorderRadius.circular(12),
+                  style: GoogleFonts.raleway(fontWeight: FontWeight.w600,color: Colors.black),
                     hint: Text('Select company'),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -261,7 +264,7 @@ class _bookingState extends State<booking> {
                 "Select your preferred date and time.",
                 style: GoogleFonts.raleway(
                     fontWeight: FontWeight.w500,
-                    fontSize: 20,
+                    fontSize: 16,
                     color: Colors.white),
               ),
               const SizedBox(
@@ -302,12 +305,12 @@ class _bookingState extends State<booking> {
               ),
               const Divider(
                 height: 60,
-                color: Colors.red,
+                color: Colors.white,
                 thickness: 0.7,
               ),
               Row(
                 children: [
-                  const Icon(Icons.timer, color: Colors.red),
+                  const Icon(Icons.timer, color: Colors.grey),
                   const SizedBox(
                     width: 6,
                   ),
@@ -409,7 +412,7 @@ class _bookingState extends State<booking> {
               const Divider(
                 indent: 4,
                 height: 75,
-                color: Colors.red,
+                color: Colors.white,
                 thickness: 0.7,
               ),
 
@@ -516,7 +519,7 @@ class _bookingState extends State<booking> {
               const Divider(
                 indent: 4,
                 height: 75,
-                color: Colors.red,
+                color: Colors.white,
                 thickness: 0.7,
               ),
 
@@ -529,32 +532,40 @@ class _bookingState extends State<booking> {
               //const SizedBox(
               // height: 18,
               // ),
-              Container(
-                  alignment: Alignment.bottomRight,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      String servicedate = storeddate + "," + time;
-                      //storedetails();
-                      storecollection(servicedate);
-                      storebooking(servicedate);
-                      // storepartner();
-                      Navigator.pushReplacement(
-                          context,
-                          PageTransition(
-                              child: const Bottomnav(),
-                              type: PageTransitionType.rightToLeftWithFade));
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: const CircleBorder(),
-                      padding: const EdgeInsets.all(33),
-                      //minimumSize: Size(50,40),
-                    ),
-                    child: Text(
-                      "Book now",
-                      style: GoogleFonts.raleway(
-                          fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                  )),
+              SizedBox(height: 10,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center ,
+                children: [
+                  Container(height: 40,width: 160,
+                      //alignment: Alignment.bottomCenter,
+                      
+                      
+                      child: ElevatedButton(
+                        onPressed: () {
+                          String servicedate = storeddate + "," + time;
+                          //storedetails();
+                          storecollection(servicedate);
+                          storebooking(servicedate);
+                          // storepartner();
+                          Navigator.pushReplacement(
+                              context,
+                              PageTransition(
+                                  child: const Bottomnav(),
+                                  type: PageTransitionType.rightToLeftWithFade));
+                        },
+                        // style: ElevatedButton.styleFrom(
+                        //   shape: const CircleBorder(),
+                        //   padding: const EdgeInsets.all(33),
+                        //   //minimumSize: Size(50,40),
+                        // ),
+                        child: Text(
+                          "Book now",
+                          style: GoogleFonts.raleway(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                        ),
+                      )),
+                ],
+              ),
             ]),
           ),
         ),

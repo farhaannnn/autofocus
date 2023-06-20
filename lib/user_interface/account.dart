@@ -25,56 +25,67 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
   }
 
   myvehicles(context) {
-    showModalBottomSheet<void>(backgroundColor: Colors.black,shape: Border.all(color: Colors.white),
+    showModalBottomSheet<void>(backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                      
       context: context,
       builder: (BuildContext context) {
-         return StreamBuilder<DocumentSnapshot>(
-          stream: firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
-          builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            }
-
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
-            }
-
-            if (!snapshot.hasData || !snapshot.data!.exists) {
-              return Text('No data');
-            }
-              final documents = snapshot.data!;
-              final list=documents['cars']as List<dynamic>;
-
-              return Padding(
-                padding: const EdgeInsets.only(left: 10,right: 10),
-                child: ListView.builder(
-                  itemCount: list.length,
-                  itemBuilder: (context, index) { 
-                    final item = list[index];
-                    // final document = documents[index];
-                    // final data = document.data() as Map<String, dynamic>;
-              
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),  color: Colors.grey[50],  border: Border.all(color: Colors.white,width: 2)),
-                        width: double.infinity,
-                        height: 100,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 20,left: 30),
-                          child: Text(item.toString(),style: GoogleFonts.raleway(color: Colors.red, fontSize: 18,fontWeight: FontWeight.bold),),
-                        ),
-                        
-                        
-                      ),
-                    );
-                  },
-                ),
-              );
-            
-
-           
-          },
-        );
+         return Padding(
+           padding: const EdgeInsets.all(8.0),
+           child: Container(
+            height: 90,
+             child: StreamBuilder<DocumentSnapshot>(
+              stream: firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
+              builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+                    
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                }
+                    
+                if (!snapshot.hasData || !snapshot.data!.exists) {
+                  return const Text('No data');
+                }
+                  final documents = snapshot.data!;
+                  final list=documents['cars']as List<dynamic>;
+                    
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 10,right: 10),
+                    child: ListView.builder(
+                      itemCount: list.length,
+                      itemBuilder: (context, index) { 
+                        final item = list[index];
+                        // final document = documents[index];
+                        // final data = document.data() as Map<String, dynamic>;
+                  
+                        return Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),  border: Border.all(color: Colors.white,width: 2)),
+                          width: double.infinity,
+                          height: 100,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 30),
+                            child: Row(
+                              children: [const Icon(Icons.car_rental_rounded),
+                              const SizedBox(width: 10,),
+                                Text(item.toString(),style: GoogleFonts.raleway(color: Colors.black, fontSize: 18,fontWeight: FontWeight.bold),),
+                              ],
+                            ),
+                          ),
+                          
+                          
+                        );
+                      },
+                    ),
+                  );
+                
+                    
+               
+              },
+                   ),
+           ),
+         );
          
         //   height: 400,
         //   color: Colors.white,
@@ -224,38 +235,7 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
                 const SizedBox(
                   height: 50,
                 ),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        backgroundColor: Colors.white,
-                        minimumSize: const Size.fromHeight(50)),
-                    onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          PageTransition(
-                              child: const Startscreen(),
-                              type: PageTransitionType.rightToLeftWithFade),
-                          (route) => false);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Icon(
-                          Icons.work_outline_rounded,
-                          color: Colors.black,
-                        ),
-                        Text('Register as Partner',
-                            style: GoogleFonts.raleway(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600)),
-                        const Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: Colors.black,
-                        )
-                      ],
-                    )),
+                // ,
                 const SizedBox(
                   height: 60,
                 ),
