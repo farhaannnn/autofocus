@@ -1,4 +1,5 @@
 import 'package:auto_focus/company_interface/start.dart';
+import 'package:auto_focus/storage.dart';
 import 'package:auto_focus/user_interface/aboutus.dart';
 import 'package:auto_focus/user_interface/login.dart';
 import 'package:auto_focus/user_interface/profile.dart';
@@ -11,82 +12,95 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 class Accountscreen1 extends StatelessWidget {
-   Accountscreen1({super.key});
-final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  showvehicles()
-  {
-    return ListView.builder(itemCount: 2,itemBuilder: (context, index) {
-      return Container(
-        color: Colors.green,
-        height: 30
-,        width: 10,
-      );
-    },);
+  final securestorage = SecureStorage();
+  Accountscreen1({super.key});
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  showvehicles() {
+    return ListView.builder(
+      itemCount: 2,
+      itemBuilder: (context, index) {
+        return Container(
+          color: Colors.green,
+          height: 30,
+          width: 10,
+        );
+      },
+    );
   }
 
   myvehicles(context) {
-    showModalBottomSheet<void>(backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15)),
-                      
+    showModalBottomSheet<void>(
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       context: context,
       builder: (BuildContext context) {
-         return Padding(
-           padding: const EdgeInsets.all(8.0),
-           child: Container(
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
             height: 90,
-             child: StreamBuilder<DocumentSnapshot>(
-              stream: firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
-              builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            child: StreamBuilder<DocumentSnapshot>(
+              stream: firestore
+                  .collection('users')
+                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 }
-                    
+
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator();
                 }
-                    
+
                 if (!snapshot.hasData || !snapshot.data!.exists) {
                   return const Text('No data');
                 }
-                  final documents = snapshot.data!;
-                  final list=documents['cars']as List<dynamic>;
-                    
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 10,right: 10),
-                    child: ListView.builder(
-                      itemCount: list.length,
-                      itemBuilder: (context, index) { 
-                        final item = list[index];
-                        // final document = documents[index];
-                        // final data = document.data() as Map<String, dynamic>;
-                  
-                        return Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),  border: Border.all(color: Colors.white,width: 2)),
-                          width: double.infinity,
-                          height: 100,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 30),
-                            child: Row(
-                              children: [const Icon(Icons.car_rental_rounded),
-                              const SizedBox(width: 10,),
-                                Text(item.toString(),style: GoogleFonts.raleway(color: Colors.black, fontSize: 18,fontWeight: FontWeight.bold),),
-                              ],
-                            ),
+                final documents = snapshot.data!;
+                final list = documents['cars'] as List<dynamic>;
+
+                return Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: ListView.builder(
+                    itemCount: list.length,
+                    itemBuilder: (context, index) {
+                      final item = list[index];
+                      // final document = documents[index];
+                      // final data = document.data() as Map<String, dynamic>;
+
+                      return Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(color: Colors.white, width: 2)),
+                        width: double.infinity,
+                        height: 100,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 30),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.car_rental_rounded),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                item.toString(),
+                                style: GoogleFonts.raleway(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
-                          
-                          
-                        );
-                      },
-                    ),
-                  );
-                
-                    
-               
+                        ),
+                      );
+                    },
+                  ),
+                );
               },
-                   ),
-           ),
-         );
-         
+            ),
+          ),
+        );
+
         //   height: 400,
         //   color: Colors.white,
         //   child: Padding(
@@ -96,7 +110,6 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
         //       mainAxisSize: MainAxisSize.min,
         //       children: <Widget>[
         //          Text('My vehicles',style: GoogleFonts.raleway(fontSize: 15,fontWeight: FontWeight.w600),),
-                 
 
         //         Row(mainAxisAlignment: MainAxisAlignment.center,
         //           children: [
@@ -246,7 +259,12 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
                             borderRadius: BorderRadius.circular(20)),
                         backgroundColor: Colors.red),
                     onPressed: () {
-                      FirebaseAuth.instance.signOut();
+                      securestorage.deleteSecureData('email');
+                      securestorage.deleteSecureData('role');
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (ctx) => LoginScreen()),
+                          (route) => false);
                       // Navigator.pushAndRemoveUntil(
                       //     context,
                       //     PageTransition(

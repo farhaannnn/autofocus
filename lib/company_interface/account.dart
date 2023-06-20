@@ -8,7 +8,11 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../storage.dart';
+import '../user_interface/login.dart';
+
 class Accountscreen extends StatelessWidget {
+  final securestorage = SecureStorage();
   Accountscreen({super.key});
   var grey = 0xFF9D9D9D;
   var yellow = 0xFFFED604;
@@ -142,12 +146,18 @@ class Accountscreen extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20))),
                   onPressed: () {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        PageTransition(
-                            child: const Loginscreen1(),
-                            type: PageTransitionType.leftToRightWithFade),
-                        (route) => false);
+                    securestorage.deleteSecureData('email');
+                      securestorage.deleteSecureData('role');
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (ctx) => LoginScreen()),
+                          (route) => false);
+                    // Navigator.pushAndRemoveUntil(
+                    //     context,
+                    //     PageTransition(
+                    //         child: const Loginscreen1(),
+                    //         type: PageTransitionType.leftToRightWithFade),
+                    //     (route) => false);
                   },
                   child: Text(
                     'Logout',

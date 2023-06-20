@@ -37,9 +37,12 @@ dependencies:
   firebase_storage: ^11.2.0
   flutter:
     sdk: flutter
+  flutter_secure_storage: ^8.0.0
   flutter_signin_button: ^2.0.0
+  geolocator: ^9.0.2
   get: ^4.6.5
   google_fonts: ^4.0.3
+  google_maps_flutter: ^2.3.1
   page_transition: ^2.0.9
   progress_state_button: ^1.0.4
 

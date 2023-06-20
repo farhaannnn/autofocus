@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'emergencyhistory.dart';
 
@@ -14,7 +17,9 @@ class Emergency extends StatefulWidget {
 
 var grey = 0xFF9D9D9D;
 var yellow = 0xFFFED604;
-void acceptbooking(String name, String vehicle,String uid) async {
+double lat = 0.0;
+double long = 0.0;
+void acceptbooking(String name, String vehicle, String uid) async {
   final query = await FirebaseFirestore.instance
       .collection('partners')
       .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -51,19 +56,19 @@ void acceptbooking(String name, String vehicle,String uid) async {
           .delete();
     }
   }
-  DocumentSnapshot snap=await FirebaseFirestore.instance.collection('partners').doc(FirebaseAuth.instance.currentUser!.uid).get();
-  String name1=(snap.data() as Map<String,dynamic>)['companyname'];
-  String mobile1=(snap.data() as Map<String,dynamic>)['mobile'];
+  DocumentSnapshot snap = await FirebaseFirestore.instance
+      .collection('partners')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .get();
+  String name1 = (snap.data() as Map<String, dynamic>)['companyname'];
+  String mobile1 = (snap.data() as Map<String, dynamic>)['mobile'];
 
   await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .collection('emergency_data')
-          .doc()
-          .set({
-            'company-name':name1,
-            'company-mobile':mobile1
-          });
+      .collection('users')
+      .doc(uid)
+      .collection('emergency_data')
+      .doc()
+      .set({'company-name': name1, 'company-mobile': mobile1});
 }
 
 class _EmergencyState extends State<Emergency> {
@@ -106,7 +111,7 @@ class _EmergencyState extends State<Emergency> {
                         return Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(11),
-                              color: Color.fromARGB(255, 218, 212, 212)),
+                              color: const Color.fromARGB(255, 218, 212, 212)),
                           // height: 150,
                           child: Column(
                             children: [
@@ -153,8 +158,61 @@ class _EmergencyState extends State<Emergency> {
                                           ),
                                         ]),
                                   ),
+                                  IconButton(
+                                      onPressed: () {
+                                        final CameraPosition userLocation =
+                                            CameraPosition(
+                                          target: LatLng(
+                                              (snapshot.data! as dynamic)
+                                                  .docs[index]['latitude'],
+                                              (snapshot.data! as dynamic)
+                                                  .docs[index]['longitude']),
+                                          zoom: 14.0,
+                                        );
+
+                                        // Open Google Maps with user's location
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => Scaffold(
+                                                appBar: AppBar(
+                                                  backgroundColor: Colors.black,
+                                                  title: Text(
+                                                    'User Location',
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                Colors.white),
+                                                  ),
+                                                ),
+                                                body: GoogleMap(
+                                                  initialCameraPosition:
+                                                      userLocation,
+                                                  markers: {
+                                                    Marker(
+                                                      markerId: MarkerId(
+                                                          'user_location'),
+                                                      position: LatLng(
+                                                          (snapshot.data!
+                                                                      as dynamic)
+                                                                  .docs[index]
+                                                              ['latitude'],
+                                                          (snapshot.data!
+                                                                      as dynamic)
+                                                                  .docs[index]
+                                                              ['longitude']),
+                                                    ),
+                                                  },
+                                                ),
+                                              ),
+                                            ));
+                                      },
+                                      icon: const Icon(
+                                          Icons.location_on_rounded)),
                                   Padding(
-                                    padding: EdgeInsets.only(right: 8.0),
+                                    padding: const EdgeInsets.only(right: 8.0),
                                     child: Column(
                                       children: [
                                         Text(
@@ -183,13 +241,12 @@ class _EmergencyState extends State<Emergency> {
                                     ElevatedButton(
                                         onPressed: () {
                                           acceptbooking(
-                                            (snapshot.data! as dynamic)
-                                                .docs[index]['name'],
-                                            (snapshot.data! as dynamic)
-                                                .docs[index]['vehicle'],
-                                                (snapshot.data! as dynamic)
-                                                .docs[index]['uid']
-                                          );
+                                              (snapshot.data! as dynamic)
+                                                  .docs[index]['name'],
+                                              (snapshot.data! as dynamic)
+                                                  .docs[index]['vehicle'],
+                                              (snapshot.data! as dynamic)
+                                                  .docs[index]['uid']);
                                         },
                                         style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.green),
@@ -208,18 +265,20 @@ class _EmergencyState extends State<Emergency> {
                           ),
                         );
                       },
-                      separatorBuilder: (context, index) => SizedBox(
+                      separatorBuilder: (context, index) => const SizedBox(
                             height: 20,
                           ));
                 },
               ),
             ),
             FloatingActionButton(
-              child: Icon(Icons.warning),
-              onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (ctx) => Emergencyhistory()));
-            })
+                child: const Icon(Icons.warning),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (ctx) => const Emergencyhistory()));
+                })
           ],
         ),
       )),

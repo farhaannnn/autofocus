@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:auto_focus/m_y_i_c_o_n_s_icons.dart';
 import 'package:auto_focus/user_interface/acservice.dart';
 import 'package:auto_focus/user_interface/alignment.dart';
@@ -8,10 +10,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../company_interface/emergency.dart';
+import '../map.dart';
 import 'carwash.dart';
 import 'oilservice.dart';
 
@@ -24,6 +28,9 @@ class Homescreen extends StatefulWidget {
 
 String? _name;
 String? _mobile;
+double _latitude = 0.0;
+double _longtitude = 0.0;
+String _locationData = '';
 // String set = 'no';
 // ispresent() async {
 //   DocumentSnapshot snap = await FirebaseFirestore.instance
@@ -37,6 +44,12 @@ String? _mobile;
 //   }
 //   set = 'no';
 // }
+void locationdata() async {
+  FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .update({'latitude': _latitude, 'longitude': _longtitude});
+}
 
 void emergency() async {
   DocumentSnapshot snap = await FirebaseFirestore.instance
@@ -62,6 +75,8 @@ void emergency() async {
       'mobile': _mobile,
       'vehicle': _vehicle,
       'status': 'Emergency',
+      'latitude': _latitude,
+      'longitude':_longtitude,
       'uid': FirebaseAuth.instance.currentUser!.uid
     });
   }
@@ -70,6 +85,44 @@ void emergency() async {
 class _HomescreenState extends State<Homescreen> {
   String cname = "";
   String cnum = "";
+  void getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      _locationData = 'Location services are disabled.';
+      setState(() {});
+      return;
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        _locationData = 'Location permissions are denied.';
+        setState(() {});
+        return;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      _locationData =
+          'Location permissions are permanently denied, we cannot request permissions.';
+      setState(() {});
+      return;
+    }
+
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+
+    _locationData =
+        'Latitude: ${position.latitude}\nLongitude: ${position.longitude}';
+    _latitude = position.latitude;
+    _longtitude = position.longitude;
+  }
+
   getsnap() async {
     QuerySnapshot snap = await FirebaseFirestore.instance
         .collection('users')
@@ -92,6 +145,7 @@ class _HomescreenState extends State<Homescreen> {
 
     super.initState();
     getsnap();
+    getCurrentLocation();
   }
 
   @override
@@ -280,12 +334,12 @@ class _HomescreenState extends State<Homescreen> {
           ),
           Center(
               child: Text(
-            'Alert nearby service stations',
+            'Alert all service stations',
             style: GoogleFonts.raleway(
                 fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
           )),
           const SizedBox(
-            height: 20,
+            height: 13,
           ),
           Padding(
             padding: const EdgeInsets.only(left: 50, right: 50),
@@ -296,14 +350,48 @@ class _HomescreenState extends State<Homescreen> {
               child: IconButton(
                 icon: const Icon(Icons.location_pin),
                 onPressed: () {
-                  emergency();
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      duration: const Duration(seconds: 3),
-                      backgroundColor: Colors.red,
-                      content:
-                          Text('All service providers have been alerted !')));
+                  showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            title: Text(
+                              'Alert Stations?',
+                              style: GoogleFonts.raleway(
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Cancel',
+                                      style: GoogleFonts.raleway(
+                                        fontWeight: FontWeight.bold,
+                                      ))),
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    emergency();
+                                    locationdata();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            duration:
+                                                const Duration(seconds: 3),
+                                            backgroundColor: Colors.red,
+                                            content: Text(
+                                                'All service providers have been alerted !')));
+                                  },
+                                  child: Text('Ok',
+                                      style: GoogleFonts.raleway(
+                                        fontWeight: FontWeight.bold,
+                                      )))
+                            ],
+                          ));
                 },
                 iconSize: 50,
                 splashColor: Colors.red,
@@ -319,8 +407,8 @@ class _HomescreenState extends State<Homescreen> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: GestureDetector(
                 onTap: () => showModalBottomSheet(
-                 // barrierColor: ,
-                  backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                    // barrierColor: ,
+                    backgroundColor: const Color.fromARGB(255, 255, 255, 255),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
                     context: context,
@@ -332,31 +420,45 @@ class _HomescreenState extends State<Homescreen> {
                           height: 160,
                           child: Column(
                             children: [
-                              Text('Mechanic Details',style: GoogleFonts.montserrat(
-                                    fontSize: 16, fontWeight: FontWeight.w600),),
-                              const Divider(thickness: 3,),
-                              const SizedBox(height: 10,),
+                              Text(
+                                'Mechanic Details',
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                              const Divider(
+                                thickness: 3,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
                               Text(
                                 'Company Name: $cname',
                                 style: GoogleFonts.montserrat(
                                     fontSize: 16, fontWeight: FontWeight.w600),
                               ),
-                              const SizedBox(height: 5,),
+                              const SizedBox(
+                                height: 5,
+                              ),
                               Text('Mobile No: $cnum',
                                   style: GoogleFonts.montserrat(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600)),
-                              const SizedBox(height: 8,),
-                              const Icon(Icons.car_repair_rounded,size: 40,),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              const Icon(
+                                Icons.car_repair_rounded,
+                                size: 40,
+                              ),
                             ],
                           ),
                         ),
                       );
                     }),
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Colors.green,
-                      borderRadius: const BorderRadius.all(Radius.circular(8))),
+                      borderRadius: BorderRadius.all(Radius.circular(8))),
                   height: 40,
                   width: double.infinity,
                   child: Center(

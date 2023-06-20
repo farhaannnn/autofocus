@@ -14,6 +14,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../services/auth_services.dart';
+import '../storage.dart';
 import 'home.dart';
 //import 'package:google_fonts/google_fonts.dart';
 //Testing Commits//
@@ -26,6 +27,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  SecureStorage secureStorage = SecureStorage();
+
   final _emailcontroller = TextEditingController();
   final _passwordcontroller = TextEditingController();
 
@@ -34,6 +37,8 @@ class _LoginScreenState extends State<LoginScreen> {
     final password = _passwordcontroller.text.trim();
     final role = await AuthServices.login(email: email, password: password);
     
+
+
     if (role != "USER"&&role!="PARTNER") {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -51,9 +56,13 @@ class _LoginScreenState extends State<LoginScreen> {
       {
         
         case 'USER':
+        secureStorage.writeSecureData('role', role);
+        secureStorage.writeSecureData('email', email);
         page=const Bottomnav();
         break;
         case 'PARTNER':
+        secureStorage.writeSecureData('role', role);
+        secureStorage.writeSecureData('email', email);
         page=  Homescreen1();
         break;
         default:
