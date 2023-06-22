@@ -19,6 +19,9 @@ var grey = 0xFF9D9D9D;
 var yellow = 0xFFFED604;
 double lat = 0.0;
 double long = 0.0;
+
+
+class _EmergencyState extends State<Emergency> {
 void acceptbooking(String name, String vehicle, String uid) async {
   final query = await FirebaseFirestore.instance
       .collection('partners')
@@ -69,9 +72,12 @@ void acceptbooking(String name, String vehicle, String uid) async {
       .collection('emergency_data')
       .doc()
       .set({'company-name': name1, 'company-mobile': mobile1});
+setState(() {
+  
+});
 }
 
-class _EmergencyState extends State<Emergency> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,7 +124,7 @@ class _EmergencyState extends State<Emergency> {
                               Row(
                                 children: [
                                   const Icon(
-                                    Icons.person_rounded,
+                                    Icons.account_circle_rounded,
                                     size: 40,
                                   ),
                                   const SizedBox(
@@ -158,7 +164,8 @@ class _EmergencyState extends State<Emergency> {
                                           ),
                                         ]),
                                   ),
-                                  IconButton(
+                                  SizedBox(width: 20,),
+                                  IconButton(color: Colors.black,
                                       onPressed: () {
                                         final CameraPosition userLocation =
                                             CameraPosition(
@@ -211,6 +218,7 @@ class _EmergencyState extends State<Emergency> {
                                       },
                                       icon: const Icon(
                                           Icons.location_on_rounded)),
+                                  
                                   Padding(
                                     padding: const EdgeInsets.only(right: 8.0),
                                     child: Column(

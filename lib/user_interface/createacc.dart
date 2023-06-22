@@ -2,6 +2,7 @@ import 'package:auto_focus/company_interface/login.dart';
 import 'package:auto_focus/services/auth_services.dart';
 import 'package:auto_focus/user_interface/bottomnav.dart';
 import 'package:auto_focus/user_interface/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
@@ -58,6 +59,8 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
       if (password == password2) {
         String res =
             await AuthServices.signup(email: email, password: password,name: name,role: role,value:flag);
+         var user = await FirebaseAuth.instance.currentUser;
+    await user!.sendEmailVerification();
         if (res != "success") {
           print(res);
           return;
@@ -120,7 +123,7 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
               TextFormField(
                 controller:_namecontroller,
                 decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.person_4),
+                    prefixIcon: Icon(Icons.person_pin),
                     prefixIconColor: Colors.black,
                     filled: true,
                     hintText: 'Name',
@@ -194,7 +197,7 @@ class _Screencreateaccount1State extends State<Screencreateaccount1> {
              
               const SizedBox(height: 20),
               Container(height: 60,width: 150,
-                child: DropdownButtonFormField(decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),  fillColor: Colors.white,filled: true,hintText: 'Select'),
+                child: DropdownButtonFormField(decoration: InputDecoration(labelStyle: GoogleFonts.raleway(fontWeight: FontWeight.bold),border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),  fillColor: Colors.white,filled: true,hintText: 'Select'),
                   value: valuechoose,
                   onTap: () {},
                   items: selectList

@@ -47,6 +47,9 @@ class _EmergencyhistoryState extends State<Emergencyhistory> {
         padding: const EdgeInsets.all(25.0),
         child: Column(
           children: [
+           
+            Text('Emergency History',style: GoogleFonts.montserrat(fontWeight: FontWeight.bold,color: Colors.yellow,fontSize: 22),),
+             SizedBox(height: 18,),
             Expanded(
               child: FutureBuilder(
                 future: FirebaseFirestore.instance
@@ -76,7 +79,7 @@ class _EmergencyhistoryState extends State<Emergencyhistory> {
                               Row(
                                 children: [
                                   const Icon(
-                                    Icons.person_rounded,
+                                    Icons.person_pin,
                                     size: 40,
                                   ),
                                   const SizedBox(

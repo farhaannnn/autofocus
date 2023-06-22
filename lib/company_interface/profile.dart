@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
@@ -151,6 +152,9 @@ class _ProfilescreenState extends State<Profilescreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 30),
                 child: TextFormField(
+                    inputFormatters: [
+            LengthLimitingTextInputFormatter(10),
+      ],
                   style: const TextStyle(color: Colors.white),
                   enabled: state,
                   controller: _mobilecontroller,

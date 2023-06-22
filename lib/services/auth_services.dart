@@ -30,7 +30,7 @@ class AuthServices {
       UserCredential _cred = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
       model.User user = model.User(
-          email: email,
+          email: email,   
           address: address,
           name: name,
           mobile: mobile,

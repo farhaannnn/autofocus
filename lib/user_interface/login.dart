@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Widget? page;
       switch(role.toUpperCase())
       {
-        
+
         case 'USER':
         secureStorage.writeSecureData('role', role);
         secureStorage.writeSecureData('email', email);

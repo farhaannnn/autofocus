@@ -39,135 +39,72 @@ class Accountscreen extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 90,
+              height: 180,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 35, right: 35),
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(30),
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                  ),
-                  onPressed: () {
+              ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        backgroundColor: Colors.white,
+                        minimumSize: const Size.fromHeight(50)),
+                  
+                     onPressed: () {
+                
                     Navigator.push(
                         context,
                         PageTransition(
                             child: const Profilescreen(),
                             type: PageTransitionType.rightToLeftWithFade));
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '                    Profile',
-                        style: GoogleFonts.raleway(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const Icon(Icons.arrow_forward_ios_rounded)
-                    ],
-                  )),
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 35, right: 35),
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(30),
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            child: Aboutscreen(),
-                            type: PageTransitionType.rightToLeftWithFade));
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '                    About Us',
-                        style: GoogleFonts.raleway(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const Icon(Icons.arrow_forward_ios_rounded)
-                    ],
-                  )),
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 35, right: 35),
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(30),
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                  ),
-                  onPressed: () {
-                    Navigator.push(context, PageTransition(child: const Servicescreen(), type: PageTransitionType.rightToLeftWithFade));
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '                    Services',
-                        style: GoogleFonts.raleway(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const Icon(Icons.arrow_forward_ios_rounded)
-                    ],
-                  )),
-            ),
-            const SizedBox(
-              height: 70,
-            ),
-            Container(
-              color: Colors.black,
-              width: 150,
-              height: 40,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(yellow),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20))),
-                  onPressed: () {
-                    securestorage.deleteSecureData('email');
+                  }, 
+                  
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Icon(
+                          Icons.account_circle_rounded,
+                          color: Colors.black,
+                        ),
+                        Text('Profile',
+                            style: GoogleFonts.raleway(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600)),
+                        const Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: Colors.black,
+                        )
+                      ],
+                    )),
+                const SizedBox(
+                  height: 30,
+                ),
+
+          
+    
+            ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.square(40),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        backgroundColor: Colors.yellow),
+                    onPressed: () {
+                      securestorage.deleteSecureData('email');
                       securestorage.deleteSecureData('role');
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(builder: (ctx) => LoginScreen()),
                           (route) => false);
-                    // Navigator.pushAndRemoveUntil(
-                    //     context,
-                    //     PageTransition(
-                    //         child: const Loginscreen1(),
-                    //         type: PageTransitionType.leftToRightWithFade),
-                    //     (route) => false);
-                  },
-                  child: Text(
-                    'Logout',
-                    style: GoogleFonts.raleway(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  )),
-            )
-          ],
+                      
+                    },
+                    child: Text(
+                      'Logout',
+                      style: GoogleFonts.raleway(
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
+                    ))
+          ]
+          ,
         ),
       )),
     );

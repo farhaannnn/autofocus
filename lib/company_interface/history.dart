@@ -128,7 +128,7 @@ class _HistoryscreenState extends State<Historyscreen> {
                            Row(
                              children: [
                                const Icon(
-                                 Icons.person_rounded,
+                                 Icons.person_pin,
                                  size: 40,
                                ),
                                const SizedBox(

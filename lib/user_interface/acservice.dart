@@ -80,7 +80,7 @@ class ACServiceScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                                 fontSize: 15)),
                         const SizedBox(
-                          width: 20,
+                          width: 24,
                         ),
                         const Icon(
                           Icons.support_agent,
@@ -91,7 +91,7 @@ class ACServiceScreen extends StatelessWidget {
                           style: GoogleFonts.raleway(
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
-                              fontSize: 18),
+                              fontSize: 15),
                         ),
                       ],
                     ),

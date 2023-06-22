@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../models/user_model.dart';
@@ -88,8 +89,7 @@ class _ProfilescreenState extends State<Profilescreen> {
                   cursorColor: Colors.white,
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
+                    
                                          focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.white)),
                       prefixIcon: const Icon(Icons.perm_identity),
@@ -143,6 +143,9 @@ class _ProfilescreenState extends State<Profilescreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 30),
                 child: TextFormField(
+                  inputFormatters: [
+            LengthLimitingTextInputFormatter(10),
+      ],
                   enabled: _enabled,
                   cursorColor: Colors.white,
                   style: const TextStyle(color: Colors.white),
